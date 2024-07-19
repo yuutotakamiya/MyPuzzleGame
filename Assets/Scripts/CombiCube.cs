@@ -6,10 +6,15 @@ public class CombiCube : MonoBehaviour
 {
     [SerializeField] GameObject combinedCubePrefab; // 合体後の新しいキューブのプレハブ
 
+    [SerializeField] GameObject effctPrefab;
+
+     GameObject stage;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        stage = GameObject.Find("stage");
+
     }
 
     // Update is called once per frame
@@ -27,11 +32,14 @@ public class CombiCube : MonoBehaviour
             Quaternion combinedRotation = Quaternion.identity;
 
             // 新しいキューブを生成
-            Instantiate(combinedCubePrefab, combinedPosition, combinedRotation);
+            Instantiate(combinedCubePrefab,collision.transform.position, combinedRotation);
+            Instantiate(effctPrefab,transform.position,Quaternion.identity);
+
 
             // 元のキューブを削除
             Destroy(collision.gameObject);
             Destroy(gameObject);
+
         }
     }
 }

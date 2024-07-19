@@ -7,6 +7,7 @@ TagManager:
   - Block
   - CombineCube
   - combicube
+  - targetObject
   layers:
   - Default
   - TransparentFX
