@@ -23,23 +23,30 @@ public class CombiCube : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("combicube"))
+        if (other.gameObject.tag == this.tag &&
+           gameObject.GetComponent<BlockManager>().IsCollision == true)
         {
+
             // 合体後のキューブの位置と回転を計算
-            Vector3 combinedPosition = (transform.position + collision.transform.position) / 2;
+            Vector3 combinedPosition = (GetComponent<BlockManager>().VTargetPosition + other.transform.position) / 2;
             Quaternion combinedRotation = Quaternion.identity;
 
             // 新しいキューブを生成
-            Instantiate(combinedCubePrefab,collision.transform.position, combinedRotation);
-            Instantiate(effctPrefab,transform.position,Quaternion.identity);
+            Instantiate(combinedCubePrefab, other.GetComponent<BlockManager>().VTargetPosition, combinedRotation);
 
+            //エフェクトを生成
+            Instantiate(effctPrefab, transform.position, Quaternion.identity);
 
             // 元のキューブを削除
-            Destroy(collision.gameObject);
+            Destroy(other.gameObject);
             Destroy(gameObject);
-
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+       
     }
 }

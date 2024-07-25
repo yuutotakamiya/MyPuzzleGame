@@ -8,6 +8,10 @@ TagManager:
   - CombineCube
   - combicube
   - targetObject
+  - FxTemporaire
+  - RockCube
+  - fireCube
+  - waterCube
   layers:
   - Default
   - TransparentFX
