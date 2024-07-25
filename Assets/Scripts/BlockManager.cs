@@ -56,19 +56,19 @@ public class BlockManager : MonoBehaviour
             flickValue_y = endTouchPos.y - startTouchPos.y;
 
             Vector3 direction = Vector3.zero;
-            if (flickValue_x  < -540)
+            if (flickValue_x  < -400)
             {
                 direction = Vector3.left;
             }
-            else if (flickValue_x > 540)
+            else if (flickValue_x > 400)
             {
                 direction = Vector3.right;
             }
-            else if (flickValue_y > 540)
+            else if (flickValue_y > 400)
             {
                 direction = Vector3.forward;
             }
-            else if (flickValue_y < -540)
+            else if (flickValue_y < -400)
             {
                 direction = Vector3.back;
             }
