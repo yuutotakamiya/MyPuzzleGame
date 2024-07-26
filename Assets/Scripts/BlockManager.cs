@@ -14,6 +14,7 @@ public class BlockManager : MonoBehaviour
     Rigidbody rb;
 
     bool isCollision = false;
+    bool isMove = false;
 
     Vector3 TargetPosition;
 
@@ -43,6 +44,8 @@ public class BlockManager : MonoBehaviour
     
     void Update()
     {
+        if (isMove) return;//移動中は入力を無視
+
         if (Input.GetMouseButtonDown(0) == true)
         {
             startTouchPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z);
@@ -56,20 +59,24 @@ public class BlockManager : MonoBehaviour
             flickValue_y = endTouchPos.y - startTouchPos.y;
 
             Vector3 direction = Vector3.zero;
-            if (flickValue_x  < -100)
+            if (flickValue_x  < -50)
             {
+                //左に移動
                 direction = Vector3.left;
             }
-            else if (flickValue_x > 100)
+            else if (flickValue_x > 50)
             {
+                //右に移動
                 direction = Vector3.right;
             }
-            else if (flickValue_y > 100)
+            else if (flickValue_y > 50)
             {
+                //奥に移動
                 direction = Vector3.forward;
             }
-            else if (flickValue_y < -100)
+            else if (flickValue_y < -50)
             {
+                //後ろに移動
                 direction = Vector3.back;
             }
 
@@ -79,8 +86,7 @@ public class BlockManager : MonoBehaviour
                 // キューブの現在の位置
                 Vector3 currentPosition = transform.position;
 
-                // 左方向へのRayを飛ばす
-
+               
                 Ray ray = new Ray(currentPosition, direction);
 
                 //rayを飛ばしたオブジェクトを順番に取得
@@ -125,8 +131,14 @@ public class BlockManager : MonoBehaviour
                         }
                     }
 
+                    isMove = true;//移動開始
+
                     //DOTweenを使って移動
-                    this.transform.GetComponent<Rigidbody>().DOMove(TargetPosition, moveDuration);
+                    this.transform.GetComponent<Rigidbody>().DOMove(TargetPosition, moveDuration).OnComplete(() =>
+                    {
+                        isMove = false;//移動完了後にフラグをリセットする
+                    });
+                    
                 }
             }
         }
