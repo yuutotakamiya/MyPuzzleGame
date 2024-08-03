@@ -12,6 +12,7 @@ TagManager:
   - RockCube
   - fireCube
   - waterCube
+  - WhiteCube
   layers:
   - Default
   - TransparentFX

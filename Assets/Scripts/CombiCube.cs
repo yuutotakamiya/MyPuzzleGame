@@ -44,9 +44,4 @@ public class CombiCube : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-       
-    }
 }

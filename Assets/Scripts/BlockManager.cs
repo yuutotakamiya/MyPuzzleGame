@@ -14,7 +14,7 @@ public class BlockManager : MonoBehaviour
     Rigidbody rb;
 
     bool isCollision = false;
-    bool isMove = false;
+    bool isMove = false;//移動中かのフラグ
 
     Vector3 TargetPosition;
 
@@ -36,12 +36,11 @@ public class BlockManager : MonoBehaviour
         get { return TargetPosition; }
     }
 
-     void Start()
-     {
+    void Start()
+    {
         rb = GetComponent<Rigidbody>();
-     }
+    }
 
-    
     void Update()
     {
         if (isMove) return;//移動中は入力を無視
@@ -54,12 +53,11 @@ public class BlockManager : MonoBehaviour
         {
             endTouchPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z);
 
-
             flickValue_x = endTouchPos.x - startTouchPos.x;
             flickValue_y = endTouchPos.y - startTouchPos.y;
 
             Vector3 direction = Vector3.zero;
-            if (flickValue_x  < -50)
+            if (flickValue_x < -50)
             {
                 //左に移動
                 direction = Vector3.left;
@@ -80,13 +78,11 @@ public class BlockManager : MonoBehaviour
                 direction = Vector3.back;
             }
 
-
             if (direction != Vector3.zero)
             {
                 // キューブの現在の位置
                 Vector3 currentPosition = transform.position;
 
-               
                 Ray ray = new Ray(currentPosition, direction);
 
                 //rayを飛ばしたオブジェクトを順番に取得
@@ -95,7 +91,7 @@ public class BlockManager : MonoBehaviour
 
                 if (hits.Length >= 1)
                 {
-                    if(hits[0].collider.gameObject.tag == tag)
+                    if (hits[0].collider.gameObject.tag == tag)
                     {
                         isCollision = true;
                     }
@@ -137,17 +133,10 @@ public class BlockManager : MonoBehaviour
                     this.transform.GetComponent<Rigidbody>().DOMove(TargetPosition, moveDuration).OnComplete(() =>
                     {
                         isMove = false;//移動完了後にフラグをリセットする
+
                     });
-                    
                 }
             }
         }
     }
-
-    public void OnClickRetry()
-    {
-        SceneManager.LoadScene("MyPuzzleScene");
-    }
-
-    
 }
