@@ -2,12 +2,17 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
 using System;//Sortメソッドを使用するために必要
+using UnityEngine.UI;
 
 public class BlockManager : MonoBehaviour
 {
     float moveDuration = 1f; // 移動にかかる時間
     [SerializeField] float rayDistance = 10f; // Rayの飛距離
     [SerializeField] LayerMask hitLayers; // レイヤーマスク
+
+    [SerializeField] Text TimeText;
+
+    [SerializeField] GameObject handnum;//残り手数
 
     Tween moveTween;
 
@@ -24,6 +29,8 @@ public class BlockManager : MonoBehaviour
     float flickValue_x;
     float flickValue_y;
 
+    float Timer;
+
     //isCollisionプロパティ
     public bool IsCollision
     {
@@ -39,6 +46,8 @@ public class BlockManager : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+
+        GetComponent<SceneLoader>();
     }
 
     void Update()
