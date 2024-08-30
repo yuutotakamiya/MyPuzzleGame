@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -7798137961977881545}
   m_Layer: 7
   m_Name: waterCube
-  m_TagString: combicube
+  m_TagString: waterCube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,8 +106,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.49967873, y: 0.4364512, z: 0.68305975}
-  m_Center: {x: -0.021595426, y: -0.1557096, z: 0.10962169}
+  m_Size: {x: 0.6, y: 0.6, z: 0.6}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4187632124225824902
 Rigidbody:
   m_ObjectHideFlags: 0

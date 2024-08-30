@@ -1,24 +1,21 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
-using UnityEngine.SceneManagement;
-using System;//Sortメソッドを使用するために必要
+using System;
 using UnityEngine.UI;
 
 public class BlockManager : MonoBehaviour
 {
-    float moveDuration = 1f; // 移動にかかる時間
-    [SerializeField] float rayDistance = 10f; // Rayの飛距離
-    [SerializeField] LayerMask hitLayers; // レイヤーマスク
+    [SerializeField] Text handnumText;//残り手数
 
-    [SerializeField] Text TimeText;
+    [SerializeField] GameObject GameOverText;//ゲームオーバーテキスト
 
-    [SerializeField] GameObject handnum;//残り手数
+    [SerializeField] Text GameClear;//ゲームクリアテキスト
 
-    Tween moveTween;
+    int hand = 10;//手数
 
-    Rigidbody rb;
+    int Count;
 
-    bool isCollision = false;
     bool isMove = false;//移動中かのフラグ
 
     Vector3 TargetPosition;
@@ -29,30 +26,22 @@ public class BlockManager : MonoBehaviour
     float flickValue_x;
     float flickValue_y;
 
-    float Timer;
-
-    //isCollisionプロパティ
-    public bool IsCollision
-    {
-        get { return isCollision; }
-    }
-
-    //isTargetPositionのプロパティ
-    public Vector3 VTargetPosition
-    {
-        get { return TargetPosition; }
-    }
-
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-
-        GetComponent<SceneLoader>();
+        UpdateHandText();
     }
 
     void Update()
     {
+       
         if (isMove) return;//移動中は入力を無視
+
+        //手数が0になったらゲームオーバー
+        if (hand <=0 )
+        {
+            GameOverText.SetActive(true);
+            return;
+        }
 
         if (Input.GetMouseButtonDown(0) == true)
         {
@@ -89,63 +78,52 @@ public class BlockManager : MonoBehaviour
 
             if (direction != Vector3.zero)
             {
-                // キューブの現在の位置
-                Vector3 currentPosition = transform.position;
+                DecreaseHand();
 
-                Ray ray = new Ray(currentPosition, direction);
+                //動くブロックのタグを取得
+                GameObject[] fireCube =  GameObject.FindGameObjectsWithTag("fireCube");
+                GameObject[] combicube = GameObject.FindGameObjectsWithTag("combicube");
+                GameObject[] waterCube = GameObject.FindGameObjectsWithTag("waterCube");
+                GameObject[] rockCube = GameObject.FindGameObjectsWithTag("RockCube");
 
-                //rayを飛ばしたオブジェクトを順番に取得
-                RaycastHit[] hits = Physics.RaycastAll(ray, rayDistance, hitLayers);
-                Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
+                GameObject[] List = new GameObject[fireCube.Length + combicube.Length + waterCube.Length + rockCube.Length];
 
-                if (hits.Length >= 1)
+                fireCube.CopyTo(List,0);
+                combicube.CopyTo(List, fireCube.Length);
+                waterCube.CopyTo(List, fireCube.Length + combicube.Length);
+                rockCube.CopyTo(List, fireCube.Length + combicube.Length + waterCube.Length);
+
+                for (int i = 0; i<List.Length; i++)
                 {
-                    if (hits[0].collider.gameObject.tag == tag)
+                    Block block = List[i].GetComponent<Block>();
+                    if (block != null)
                     {
-                        isCollision = true;
+                        block.Move(direction, () => {
+                            isMove = false;
+                        });
                     }
-                    // Rayがヒットした位置に移動
-                    TargetPosition = hits[hits.Length - 1].transform.position - direction * hits.Length;
-
-                    //int movecount = 0;//自分のブロックと比較するブロックの変数
-                    int count = 1;
-                    string CmpTag = tag;
-
-                    for (int i = 0; i < hits.Length; i++)
-                    {
-                        if (count == 0)
-                        {
-                            CmpTag = hits[i].collider.tag;
-                        }
-                        //ヒットしたオブジェクトが自身と同じタグを持つ場合の処理
-                        if (hits[i].collider.gameObject.tag == CmpTag)
-                        {
-                            count++;
-                            if (count == 2)
-                            {
-                                count = 0;
-
-                                TargetPosition += direction;
-                            }
-                        }
-                        else
-                        {
-                            count = 1;
-
-                            CmpTag = hits[i].collider.gameObject.tag;
-                        }
-                    }
-
-                    isMove = true;//移動開始
-
-                    //DOTweenを使って移動
-                    this.transform.GetComponent<Rigidbody>().DOMove(TargetPosition, moveDuration).OnComplete(() =>
-                    {
-                        isMove = false;//移動完了後にフラグをリセットする
-
-                    });
+                   
                 }
             }
+        }
+    }
+
+    //手数を減らす処理
+    void DecreaseHand()
+    {
+        if (hand > 0)
+        {
+            hand--;
+            UpdateHandText();
+        }
+    }
+
+    // 残り手数を更新するメソッド
+    void UpdateHandText()
+    {
+        if (handnumText != null)
+        {
+            handnumText.text = "残り手数: " + hand.ToString();
         }
     }
 }
