@@ -16,11 +16,13 @@ public class BlockManager : MonoBehaviour
     [SerializeField] GameObject BackHomeButton;//ホームに戻るボタン
     [SerializeField] GameObject CubeList;//ブロックの進化リスト
     [SerializeField] GameObject backStageSelectButton;//ステージ選択画面ボタン
+    [SerializeField] GameObject NextStageButton;//次のステージへ
 
     int hand = 10;//手数
 
     int TotalNum;//フレームのトータル数
     int CurrentNum;//現在のどのくらい埋めたか保存するための変数
+    static int CurrentStageNum;//現在のステージ番号
 
     bool isMove = false;//移動中かのフラグ
     bool isCompleteClear = false;//クリアしたかどうか
@@ -35,7 +37,6 @@ public class BlockManager : MonoBehaviour
 
     GameObject helpButton;
 
-
     void Start()
     {
         UpdateHandText();
@@ -43,6 +44,11 @@ public class BlockManager : MonoBehaviour
         TotalNum = GameObject.FindGameObjectsWithTag("ClearCube").Length;
 
         helpButton = GameObject.Find("helpButton");
+
+        if (CurrentStageNum == 2)
+        {
+            NextStageButton.GetComponent<Button>().interactable = false;
+        }
     }
 
     void Update()
@@ -140,7 +146,7 @@ public class BlockManager : MonoBehaviour
     {
         if (handnumText != null)
         {
-            handnumText.text = "残り手数: " + hand.ToString();
+            handnumText.text = hand.ToString();
         }
     }
 
@@ -170,6 +176,7 @@ public class BlockManager : MonoBehaviour
             BackHomeButton.SetActive(true);
             helpButton.SetActive(false);
             backStageSelectButton.SetActive(true);
+            NextStageButton.SetActive(true);
             return;
         }
     }
@@ -179,4 +186,17 @@ public class BlockManager : MonoBehaviour
     {
         Initiate.Fade("StageSelectScene", Color.black, 1.0f);
     }
+
+    public void FadeNextStage()
+    {
+        CurrentStageNum += 1;
+        Initiate.Fade("Stage"+ CurrentStageNum, Color.black, 1.0f);
+    }
+
+    static public void UpdateStageNum(int currentstagenum)
+    {
+        CurrentStageNum = currentstagenum;
+        Initiate.Fade("Stage"+ CurrentStageNum, Color.black, 1.0f);
+    }
+
 }
