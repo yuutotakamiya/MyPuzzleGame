@@ -180,3 +180,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorCubePrefab: {fileID: 2101278834678520051, guid: 2ebc2039321262945a75876373a47246,
     type: 3}
+  CreateBlockEffect: {fileID: 1995403933065894, guid: 4961a16ba01e09547be3e1c9d16d5ad0,
+    type: 3}

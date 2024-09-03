@@ -35,9 +35,10 @@ public class Block : MonoBehaviour
 
     public void Move(Vector3 direction, Action completeMove)
     {
-         //キューブの現在の位置
-         Vector3 currentPosition = transform.position;
+        //キューブの現在の位置
+        Vector3 currentPosition = transform.position;
 
+        //reyのインスタンス
         Ray ray = new Ray(currentPosition, direction);
 
         //rayを飛ばしたオブジェクトを順番に取得

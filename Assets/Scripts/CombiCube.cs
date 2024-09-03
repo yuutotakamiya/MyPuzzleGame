@@ -6,7 +6,7 @@ public class CombiCube : MonoBehaviour
 {
     [SerializeField] GameObject combinedCubePrefab; // 合体後の新しいキューブのプレハブ
 
-    [SerializeField] GameObject effctPrefab;
+    [SerializeField] GameObject effctPrefab;//合体したときのエフェクトのプレハブ
 
      GameObject stage;
 

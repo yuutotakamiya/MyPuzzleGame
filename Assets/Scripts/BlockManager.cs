@@ -3,20 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class BlockManager : MonoBehaviour
 {
     [SerializeField] Text handnumText;//残り手数
-
     [SerializeField] GameObject GameOverText;//ゲームオーバーテキスト
-
-    [SerializeField] Text GameClear;//ゲームクリアテキスト
+    [SerializeField] GameObject GameClear;//ゲームクリアテキスト
+    [SerializeField] GameObject RetryButton;//リトライボタン
+    [SerializeField] GameObject BackHomeButton;//ホームに戻るボタン
+    [SerializeField] GameObject CubeList;//ブロックの進化リスト
+    [SerializeField] GameObject backStageSelectButton;//ステージ選択画面ボタン
 
     int hand = 10;//手数
 
-    int Count;
+    int TotalNum;//フレームのトータル数
+    int CurrentNum;//現在のどのくらい埋めたか保存するための変数
 
     bool isMove = false;//移動中かのフラグ
+    bool isCompleteClear = false;//クリアしたかどうか
 
     Vector3 TargetPosition;
 
@@ -26,22 +33,21 @@ public class BlockManager : MonoBehaviour
     float flickValue_x;
     float flickValue_y;
 
+    GameObject helpButton;
+
+
     void Start()
     {
         UpdateHandText();
+
+        TotalNum = GameObject.FindGameObjectsWithTag("ClearCube").Length;
+
+        helpButton = GameObject.Find("helpButton");
     }
 
     void Update()
     {
-       
-        if (isMove) return;//移動中は入力を無視
-
-        //手数が0になったらゲームオーバー
-        if (hand <=0 )
-        {
-            GameOverText.SetActive(true);
-            return;
-        }
+        if (isMove || isCompleteClear) return;//移動中またはクリアした場合は入力を無視する
 
         if (Input.GetMouseButtonDown(0) == true)
         {
@@ -80,29 +86,40 @@ public class BlockManager : MonoBehaviour
             {
                 DecreaseHand();
 
+                //手数が0になったらゲームオーバー
+                if (hand <= 0)
+                {
+                    GameOverText.SetActive(true);
+                    RetryButton.SetActive(true);
+                    BackHomeButton.SetActive(true);
+                    helpButton.SetActive(false);
+                    backStageSelectButton.SetActive(true);
+                    return;
+                }
+
                 //動くブロックのタグを取得
-                GameObject[] fireCube =  GameObject.FindGameObjectsWithTag("fireCube");
+                GameObject[] fireCube = GameObject.FindGameObjectsWithTag("fireCube");
                 GameObject[] combicube = GameObject.FindGameObjectsWithTag("combicube");
                 GameObject[] waterCube = GameObject.FindGameObjectsWithTag("waterCube");
                 GameObject[] rockCube = GameObject.FindGameObjectsWithTag("RockCube");
 
                 GameObject[] List = new GameObject[fireCube.Length + combicube.Length + waterCube.Length + rockCube.Length];
 
-                fireCube.CopyTo(List,0);
+                fireCube.CopyTo(List, 0);
                 combicube.CopyTo(List, fireCube.Length);
                 waterCube.CopyTo(List, fireCube.Length + combicube.Length);
                 rockCube.CopyTo(List, fireCube.Length + combicube.Length + waterCube.Length);
 
-                for (int i = 0; i<List.Length; i++)
+                for (int i = 0; i < List.Length; i++)
                 {
                     Block block = List[i].GetComponent<Block>();
                     if (block != null)
                     {
-                        block.Move(direction, () => {
+                        block.Move(direction, () =>
+                        {
                             isMove = false;
                         });
                     }
-                   
                 }
             }
         }
@@ -125,5 +142,41 @@ public class BlockManager : MonoBehaviour
         {
             handnumText.text = "残り手数: " + hand.ToString();
         }
+    }
+
+    //ホームに戻る
+    public void FadeBackHome()
+    {
+        Initiate.Fade("home", Color.black, 1.0f);
+    }
+
+    //リトライ
+    public void Retry()
+    {
+        SceneManager.LoadScene("Stage1");
+    }
+
+    //現在のフレームの数がトータルのフレームの数が同じになったら
+    public void AddCurrentNum()
+    {
+        //現在のフレーム数をカウントアップ
+        CurrentNum++;
+
+        //ゲームクリア処理
+        if (CurrentNum == TotalNum)
+        {
+            isCompleteClear = true;
+            GameClear.SetActive(true);
+            BackHomeButton.SetActive(true);
+            helpButton.SetActive(false);
+            backStageSelectButton.SetActive(true);
+            return;
+        }
+    }
+
+    //ステージ選択画面に戻る
+    public void FadeStageSelect()
+    {
+        Initiate.Fade("StageSelectScene", Color.black, 1.0f);
     }
 }

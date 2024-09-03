@@ -41,7 +41,6 @@ public class AssetLoader : MonoBehaviour
 
         loadingSlider.value = 100;
         Addressables.Release(downloadHandle);
-        Addressables.Release(handle);
 
         //Ÿ‚ÌƒV[ƒ“‚ÖˆÚ“®
         loadFade();
