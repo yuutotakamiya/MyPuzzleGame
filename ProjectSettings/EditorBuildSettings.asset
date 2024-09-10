@@ -6,29 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Bitgem/StylisedWater/URP/Examples/Example-Scene-01.unity
-    guid: fc967860e2508924e943ba0223c2ed3b
-  - enabled: 1
     path: Assets/Scenes/Title.unity
     guid: d665d5969bf36bd44bc5e43aedfb4df9
+  - enabled: 1
+    path: Assets/Scenes/LoadScene.unity
+    guid: 51f7298d09f59dd4fa9d6d5c767647e7
   - enabled: 1
     path: Assets/Scenes/home.unity
     guid: 05203a9fc8ad65f4e850cfa4a2348102
   - enabled: 1
     path: Assets/Scenes/StageSelectScene.unity
     guid: 3a0668121d59614429c16ef68d0e8eab
-  - enabled: 1
-    path: Assets/Scenes/UIScene.unity
-    guid: 084c1ea0b3036c04995c0788fb25a8f1
-  - enabled: 1
-    path: Assets/Scenes/Stage1.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
-    path: Assets/Scenes/Stage2.unity
-    guid: 6a326bcbee135e54ca393139f681c319
-  - enabled: 0
-    path: Assets/Scenes/result.unity
-    guid: a700203de366ba14a92fa389e8c6ffc5
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 88b4d7f29cd60b84886a3745d889307c,
       type: 2}

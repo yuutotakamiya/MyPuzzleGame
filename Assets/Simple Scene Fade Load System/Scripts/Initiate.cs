@@ -6,7 +6,7 @@ public static class Initiate
     static bool areWeFading = false;
 
     //Create Fader object and assing the fade scripts and assign all the variables
-    public static void Fade(string scene, Color col, float multiplier)
+    public static void Fade(string scene, Color col, float multiplier, bool isAddressable=false)
     {
         if (areWeFading)
         {
@@ -28,7 +28,7 @@ public static class Initiate
         scr.fadeColor = col;
         scr.start = true;
         areWeFading = true;
-        scr.InitiateFader();
+        scr.InitiateFader(isAddressable);
         
     }
 

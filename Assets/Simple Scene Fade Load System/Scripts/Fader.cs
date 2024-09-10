@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.AddressableAssets;
 
 public class Fader : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class Fader : MonoBehaviour
     Image bg;
     float lastTime = 0;
     bool startedLoading = false;
+    bool isAddressables = false;
+    
     //Set callback
     void OnEnable()
     {
@@ -32,9 +35,9 @@ public class Fader : MonoBehaviour
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
     }
 
-    public void InitiateFader()
+    public void InitiateFader(bool isAddressable)
     {
-
+        isAddressables = isAddressable;
         DontDestroyOnLoad(gameObject);
 
         //Getting the visual elements
@@ -78,7 +81,15 @@ public class Fader : MonoBehaviour
                 if (alpha == 1 && !startedLoading)
                 {
                     startedLoading = true;
-                    SceneManager.LoadScene(fadeScene);
+                    if (isAddressables == true) 
+                    {
+                        Addressables.LoadScene(fadeScene);
+                    }
+                    else
+                    {
+                        SceneManager.LoadScene(fadeScene);
+                    }
+                   
                 }
 
             }

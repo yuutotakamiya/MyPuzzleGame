@@ -91,4 +91,11 @@ public class NetworkManager : MonoBehaviour
         this.userName = saveData.Name;
         return true;
     }
+
+    /*public IEnumerator Getstage(Action<StageResponse[]> result)
+    {
+        UnityWebRequest request = UnityWebRequest.Get();
+        yield return request = SendWebRequest();
+
+    }*/
 }

@@ -6,26 +6,26 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.AddressableAssets;
 
 public class BlockManager : MonoBehaviour
 {
     [SerializeField] Text handnumText;//残り手数
     [SerializeField] GameObject GameOverText;//ゲームオーバーテキスト
     [SerializeField] GameObject GameClear;//ゲームクリアテキスト
-    [SerializeField] GameObject RetryButton;//リトライボタン
     [SerializeField] GameObject BackHomeButton;//ホームに戻るボタン
     [SerializeField] GameObject CubeList;//ブロックの進化リスト
     [SerializeField] GameObject backStageSelectButton;//ステージ選択画面ボタン
     [SerializeField] GameObject NextStageButton;//次のステージへ
+    [SerializeField]int hand;//手数
 
-    int hand = 10;//手数
-
-    int TotalNum;//フレームのトータル数
-    int CurrentNum;//現在のどのくらい埋めたか保存するための変数
+    [SerializeField]int TotalNum;//フレームのトータル数
+    [SerializeField]int CurrentNum;//現在のどのくらい埋めたか保存するための変数
     static int CurrentStageNum;//現在のステージ番号
 
     bool isMove = false;//移動中かのフラグ
     bool isCompleteClear = false;//クリアしたかどうか
+    bool isGameOver = false;
 
     Vector3 TargetPosition;
 
@@ -45,7 +45,7 @@ public class BlockManager : MonoBehaviour
 
         helpButton = GameObject.Find("helpButton");
 
-        if (CurrentStageNum == 2)
+        if (CurrentStageNum == 10)
         {
             NextStageButton.GetComponent<Button>().interactable = false;
         }
@@ -53,7 +53,7 @@ public class BlockManager : MonoBehaviour
 
     void Update()
     {
-        if (isMove || isCompleteClear) return;//移動中またはクリアした場合は入力を無視する
+        if (isMove || isCompleteClear || isGameOver ) return;//移動中またはクリアした場合は入力を無視する
 
         if (Input.GetMouseButtonDown(0) == true)
         {
@@ -66,25 +66,29 @@ public class BlockManager : MonoBehaviour
             flickValue_x = endTouchPos.x - startTouchPos.x;
             flickValue_y = endTouchPos.y - startTouchPos.y;
 
+            //絶対値を取得する関数
+            float x = Math.Abs(flickValue_x);
+            float y = Math.Abs(flickValue_y);
+
             Vector3 direction = Vector3.zero;
-            if (flickValue_x < -50)
+            if (flickValue_x < -50 && x > y)
             {
                 //左に移動
                 direction = Vector3.left;
             }
-            else if (flickValue_x > 50)
+            else if (flickValue_x > 50 && x > y)
             {
                 //右に移動
                 direction = Vector3.right;
             }
-            else if (flickValue_y > 50)
+            else if (flickValue_y > 50 && y > x)
             {
                 //奥に移動
                 direction = Vector3.forward;
             }
-            else if (flickValue_y < -50)
+            else if (flickValue_y < -50 && y > x)
             {
-                //後ろに移動
+                //手前に移動
                 direction = Vector3.back;
             }
 
@@ -92,22 +96,12 @@ public class BlockManager : MonoBehaviour
             {
                 DecreaseHand();
 
-                //手数が0になったらゲームオーバー
-                if (hand <= 0)
-                {
-                    GameOverText.SetActive(true);
-                    RetryButton.SetActive(true);
-                    BackHomeButton.SetActive(true);
-                    helpButton.SetActive(false);
-                    backStageSelectButton.SetActive(true);
-                    return;
-                }
-
                 //動くブロックのタグを取得
                 GameObject[] fireCube = GameObject.FindGameObjectsWithTag("fireCube");
                 GameObject[] combicube = GameObject.FindGameObjectsWithTag("combicube");
                 GameObject[] waterCube = GameObject.FindGameObjectsWithTag("waterCube");
                 GameObject[] rockCube = GameObject.FindGameObjectsWithTag("RockCube");
+                //GameObject[] Bronze = GameObject.FindGameObjectsWithTag("BronzeCube");
 
                 GameObject[] List = new GameObject[fireCube.Length + combicube.Length + waterCube.Length + rockCube.Length];
 
@@ -116,6 +110,9 @@ public class BlockManager : MonoBehaviour
                 waterCube.CopyTo(List, fireCube.Length + combicube.Length);
                 rockCube.CopyTo(List, fireCube.Length + combicube.Length + waterCube.Length);
 
+                isMove = true;
+
+                StartCoroutine(MoveBlock());
                 for (int i = 0; i < List.Length; i++)
                 {
                     Block block = List[i].GetComponent<Block>();
@@ -123,11 +120,28 @@ public class BlockManager : MonoBehaviour
                     {
                         block.Move(direction, () =>
                         {
-                            isMove = false;
+                           
                         });
                     }
                 }
             }
+        }
+    }
+
+    private IEnumerator MoveBlock()
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        isMove = false;
+
+        //手数が0になったらゲームオーバー
+        if (hand <= 0 && !isCompleteClear)
+        {
+            isGameOver = true;
+            GameOverText.SetActive(true);
+            BackHomeButton.SetActive(true);
+            helpButton.SetActive(false);
+            backStageSelectButton.SetActive(true);
         }
     }
 
@@ -153,13 +167,14 @@ public class BlockManager : MonoBehaviour
     //ホームに戻る
     public void FadeBackHome()
     {
-        Initiate.Fade("home", Color.black, 1.0f);
+        Initiate.Fade("StageSelectScene", Color.black, 1.0f);
     }
 
     //リトライ
     public void Retry()
     {
-        SceneManager.LoadScene("Stage1");
+        
+        Addressables.LoadScene("Stage"+ CurrentStageNum);
     }
 
     //現在のフレームの数がトータルのフレームの数が同じになったら
@@ -187,16 +202,17 @@ public class BlockManager : MonoBehaviour
         Initiate.Fade("StageSelectScene", Color.black, 1.0f);
     }
 
+    //次のステージに遷移する
     public void FadeNextStage()
     {
         CurrentStageNum += 1;
-        Initiate.Fade("Stage"+ CurrentStageNum, Color.black, 1.0f);
+        Initiate.Fade("Stage"+ CurrentStageNum, Color.black, 1.0f,true);
     }
 
+    //現在のステージ番号を更新するメソッド
     static public void UpdateStageNum(int currentstagenum)
     {
         CurrentStageNum = currentstagenum;
-        Initiate.Fade("Stage"+ CurrentStageNum, Color.black, 1.0f);
+        Initiate.Fade("Stage"+ CurrentStageNum, Color.black, 1.0f,true);
     }
-
 }

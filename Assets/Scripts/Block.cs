@@ -11,7 +11,7 @@ public class Block : MonoBehaviour
     [SerializeField] float rayDistance = 10f; // Rayの飛距離
     [SerializeField] LayerMask hitLayers; // レイヤーマスク
 
-    bool isCollision = false;
+    [SerializeField]bool isCollision = false;
 
     Vector3 TargetPosition;
 
@@ -44,12 +44,15 @@ public class Block : MonoBehaviour
         //rayを飛ばしたオブジェクトを順番に取得
         RaycastHit[] hits = Physics.RaycastAll(ray, rayDistance, hitLayers);
         Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
-
         if (hits.Length >= 1)
         {
             List<RaycastHit> raycastHitList = new List<RaycastHit>();
             for (int i = 0; i < hits.Length; i++)
             {
+                if (hits[i].collider.gameObject.name.Contains("CleanWater"))
+                {
+                    continue;
+                }
                 if (hits[i].collider.gameObject.tag == "targetObject")
                 {
                     raycastHitList.Add(hits[i]);
@@ -57,6 +60,10 @@ public class Block : MonoBehaviour
                 }
                 raycastHitList.Add(hits[i]);
 
+            }
+            if (raycastHitList.Count == 0)
+            {
+                return;
             }
             if (raycastHitList[0].collider.gameObject.tag == tag)
             {

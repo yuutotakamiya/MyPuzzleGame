@@ -9,10 +9,13 @@ public class StockPoint : MonoBehaviour
     BlockManager blockManager;
 
     [SerializeField] GameObject CreateBlockEffect;
+  
+
     // Start is called before the first frame update
     void Start()
     {
        blockManager = GameObject.Find("BlockManager").GetComponent<BlockManager>();
+
     }
 
     // Update is called once per frame
@@ -28,12 +31,12 @@ public class StockPoint : MonoBehaviour
 
             Vector3 floorPosition = new Vector3(transform.position.x,4.76f,transform.position.z);
             Quaternion combinedRotation = Quaternion.identity;
-
+           
             // 新しいキューブを生成
             GameObject cube = Instantiate(floorCubePrefab, floorPosition, Quaternion.identity);
-
+           
             //エフェクトを生成
-            Instantiate(CreateBlockEffect, transform.position, Quaternion.identity);
+            Instantiate(CreateBlockEffect, transform.position + new Vector3(0,-0.5f,0), Quaternion.identity);
 
             Destroy(cube.GetComponent<Block>());
             Destroy(cube.GetComponent<CombiCube>());

@@ -48,7 +48,7 @@ public class AssetLoader : MonoBehaviour
     }
     public void loadFade()
     {
-        Initiate.Fade("Stage1", Color.black, 1.0f);
+        Initiate.Fade("StageSelectScene", Color.black, 1.0f);
     }
 
 }

@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: PuzzleDataGroup
+  m_EditorClassIdentifier: 
+  m_GroupName: PuzzleDataGroup
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 0b5d47137aebe3b49a91cb74df77bbbc
+  m_SerializeEntries:
+  - m_GUID: 99c9720ab356a0642a771bea13969a05
+    m_Address: Stage1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6a326bcbee135e54ca393139f681c319
+    m_Address: Stage2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3e9e499000345b14da8d72c17fd22f88
+    m_Address: Stage3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d0c892d7051e83747903c29f394c1b1b
+    m_Address: Stage4
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1fca3943b8e68f245a31daab7eb97336
+    m_Address: Stage5
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: e532bd98bd8c8b543ae419ef094b5c05, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 68a366e0972b6d04ea109a19c7e16812, type: 2}
+    - {fileID: 11400000, guid: a26bb6efa1ffc6049af5bbe6f55edf9f, type: 2}

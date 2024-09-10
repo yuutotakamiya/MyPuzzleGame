@@ -107,7 +107,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.6, y: 0.6, z: 0.6}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: -0.18004525, y: 0.02570164, z: 0.12381236}
 --- !u!54 &4187632124225824902
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -151,6 +151,7 @@ MonoBehaviour:
   hitLayers:
     serializedVersion: 2
     m_Bits: 128
+  isCollision: 0
 --- !u!114 &-7798137961977881545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40b0082ef616eea44bcbb47bb69a73ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combinedCubePrefab: {fileID: 5142692067315822548, guid: 6fcea9cd0081b064b83811bbdb5eccd6,
+  combinedCubePrefab: {fileID: 2461337330384281287, guid: 5648b5c9c5581b5448634ca1607d48ae,
     type: 3}
   effctPrefab: {fileID: 1040608886635896, guid: a97415c6b57076f41a6621a7b51d63a3,
     type: 3}
