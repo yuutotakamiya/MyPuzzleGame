@@ -5,19 +5,23 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.UI;
 
 public class Title : MonoBehaviour
 {
+    [SerializeField] AudioClip clip;
+
+    AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-
+       
     }
 
     IEnumerator CheckCatalog()
@@ -49,12 +53,13 @@ public class Title : MonoBehaviour
                 result =>
                 {
                     StartCoroutine(CheckCatalog());
+                    audioSource.PlayOneShot(clip);
                 }));
         }
         else
         {
             StartCoroutine(CheckCatalog());
         }
-
+        
     }
 }
