@@ -9,13 +9,13 @@ using UnityEngine.UI;
 
 public class Title : MonoBehaviour
 {
-    [SerializeField] AudioClip clip;
+    [SerializeField] AudioClip audioClip;
 
     AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSource  = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -45,15 +45,17 @@ public class Title : MonoBehaviour
 
     public void StartButtoon()
     {
+        audioSource.PlayOneShot(audioClip);
         bool isSuccess = NetworkManager.Instance.LoadUserData();
         if (!isSuccess)
         {
+
             //ユーザーデータが保存されてない場合は登録
             StartCoroutine(NetworkManager.Instance.RegistUser(Guid.NewGuid().ToString(),
                 result =>
                 {
                     StartCoroutine(CheckCatalog());
-                    audioSource.PlayOneShot(clip);
+                    
                 }));
         }
         else

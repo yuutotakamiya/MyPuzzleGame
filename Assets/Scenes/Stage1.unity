@@ -1189,9 +1189,9 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.041487068
+    x: 0
     y: 0
-    width: 0.91702586
+    width: 1
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
@@ -2992,7 +2992,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u30DB\u30FC\u30E0\u306B\u623B\u308B"
+  m_Text: "\u30BF\u30A4\u30C8\u30EB\u306B\u623B\u308B"
 --- !u!222 &927669190
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3993,6 +3993,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1327329961}
   - component: {fileID: 1327329960}
+  - component: {fileID: 1327329962}
   m_Layer: 0
   m_Name: BlockManager
   m_TagString: Untagged
@@ -4015,13 +4016,16 @@ MonoBehaviour:
   handnumText: {fileID: 2046029730}
   GameOverText: {fileID: 221272089}
   GameClear: {fileID: 212388064}
-  BackHomeButton: {fileID: 1671205217}
+  BackTitleButton: {fileID: 1671205217}
   CubeList: {fileID: 707293736}
   backStageSelectButton: {fileID: 22714991}
   NextStageButton: {fileID: 23534258}
   hand: 3
   TotalNum: 0
   CurrentNum: 0
+  TitleSE: {fileID: 8300000, guid: 55a7dbbe22932764788abdd78a6d278e, type: 3}
+  StageNextSE: {fileID: 8300000, guid: 8f54598e06c1ac44092d13a513d8a560, type: 3}
+  backStageSelectSE: {fileID: 8300000, guid: 8f54598e06c1ac44092d13a513d8a560, type: 3}
 --- !u!4 &1327329961
 Transform:
   m_ObjectHideFlags: 0
@@ -4037,6 +4041,102 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1327329962
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1327329959}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1372666309
 GameObject:
   m_ObjectHideFlags: 0
@@ -4766,7 +4866,7 @@ GameObject:
   - component: {fileID: 1671205219}
   - component: {fileID: 1671205218}
   m_Layer: 5
-  m_Name: backhomeButton
+  m_Name: backTitleButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4818,7 +4918,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1327329960}
         m_TargetAssemblyTypeName: BlockManager, Assembly-CSharp
-        m_MethodName: FadeBackHome
+        m_MethodName: FadeBackTitle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

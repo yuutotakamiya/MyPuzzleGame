@@ -10,22 +10,29 @@ using UnityEngine.AddressableAssets;
 
 public class BlockManager : MonoBehaviour
 {
+    //UI
     [SerializeField] Text handnumText;//残り手数
     [SerializeField] GameObject GameOverText;//ゲームオーバーテキスト
     [SerializeField] GameObject GameClear;//ゲームクリアテキスト
-    [SerializeField] GameObject BackHomeButton;//ホームに戻るボタン
+    [SerializeField] GameObject BackTitleButton;//タイトルに戻るボタン
     [SerializeField] GameObject CubeList;//ブロックの進化リスト
     [SerializeField] GameObject backStageSelectButton;//ステージ選択画面ボタン
     [SerializeField] GameObject NextStageButton;//次のステージへ
+     GameObject helpButton;//ヘルプボタン
+    //変数宣言
     [SerializeField]int hand;//手数
-
     [SerializeField]int TotalNum;//フレームのトータル数
     [SerializeField]int CurrentNum;//現在のどのくらい埋めたか保存するための変数
+
+    //効果音
+    [SerializeField] AudioClip TitleSE;
+    [SerializeField] AudioClip StageNextSE;
+    [SerializeField] AudioClip backStageSelectSE;
     static int CurrentStageNum;//現在のステージ番号
 
     bool isMove = false;//移動中かのフラグ
     bool isCompleteClear = false;//クリアしたかどうか
-    bool isGameOver = false;
+    bool isGameOver = false;//ゲームオーバーしたかのフラグ
 
     Vector3 TargetPosition;
 
@@ -35,7 +42,9 @@ public class BlockManager : MonoBehaviour
     float flickValue_x;
     float flickValue_y;
 
-    GameObject helpButton;
+  
+
+    AudioSource audioSource;
 
     void Start()
     {
@@ -49,6 +58,9 @@ public class BlockManager : MonoBehaviour
         {
             NextStageButton.GetComponent<Button>().interactable = false;
         }
+
+        audioSource = GetComponent<AudioSource>();
+
     }
 
     void Update()
@@ -139,7 +151,7 @@ public class BlockManager : MonoBehaviour
         {
             isGameOver = true;
             GameOverText.SetActive(true);
-            BackHomeButton.SetActive(true);
+            BackTitleButton.SetActive(true);
             helpButton.SetActive(false);
             backStageSelectButton.SetActive(true);
         }
@@ -164,16 +176,16 @@ public class BlockManager : MonoBehaviour
         }
     }
 
-    //ホームに戻る
-    public void FadeBackHome()
+    //タイトルに戻る
+    public void FadeBackTitle()
     {
-        Initiate.Fade("StageSelectScene", Color.black, 1.0f);
+        Initiate.Fade("Title", Color.black, 1.0f);
+        audioSource.PlayOneShot(TitleSE);
     }
 
     //リトライ
     public void Retry()
     {
-        
         Addressables.LoadScene("Stage"+ CurrentStageNum);
     }
 
@@ -188,7 +200,7 @@ public class BlockManager : MonoBehaviour
         {
             isCompleteClear = true;
             GameClear.SetActive(true);
-            BackHomeButton.SetActive(true);
+            BackTitleButton.SetActive(true);
             helpButton.SetActive(false);
             backStageSelectButton.SetActive(true);
             NextStageButton.SetActive(true);
@@ -200,6 +212,7 @@ public class BlockManager : MonoBehaviour
     public void FadeStageSelect()
     {
         Initiate.Fade("StageSelectScene", Color.black, 1.0f);
+        audioSource.PlayOneShot(backStageSelectSE);
     }
 
     //次のステージに遷移する
@@ -207,6 +220,7 @@ public class BlockManager : MonoBehaviour
     {
         CurrentStageNum += 1;
         Initiate.Fade("Stage"+ CurrentStageNum, Color.black, 1.0f,true);
+        audioSource.PlayOneShot(StageNextSE);
     }
 
     //現在のステージ番号を更新するメソッド

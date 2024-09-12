@@ -5296,7 +5296,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u30DB\u30FC\u30E0\u306B\u623B\u308B"
+  m_Text: "\u30BF\u30A4\u30C8\u30EB\u306B\u623B\u308B"
 --- !u!222 &927669190
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6888,13 +6888,16 @@ MonoBehaviour:
   handnumText: {fileID: 2046029730}
   GameOverText: {fileID: 221272089}
   GameClear: {fileID: 212388064}
-  BackHomeButton: {fileID: 1671205217}
+  BackTitleButton: {fileID: 1671205217}
   CubeList: {fileID: 707293736}
   backStageSelectButton: {fileID: 22714991}
   NextStageButton: {fileID: 23534258}
   hand: 10
   TotalNum: 0
   CurrentNum: 0
+  TitleSE: {fileID: 8300000, guid: 55a7dbbe22932764788abdd78a6d278e, type: 3}
+  StageNextSE: {fileID: 8300000, guid: c270da287ec78c04e90c16ed22681a84, type: 3}
+  backStageSelectSE: {fileID: 8300000, guid: 9dcda424aca4a0b42936a142202ae809, type: 3}
 --- !u!4 &1327329961
 Transform:
   m_ObjectHideFlags: 0
@@ -8870,7 +8873,7 @@ GameObject:
   - component: {fileID: 1671205219}
   - component: {fileID: 1671205218}
   m_Layer: 5
-  m_Name: backhomeButton
+  m_Name: backTitleButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8922,7 +8925,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1327329960}
         m_TargetAssemblyTypeName: BlockManager, Assembly-CSharp
-        m_MethodName: FadeBackHome
+        m_MethodName: FadeBackTitle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
