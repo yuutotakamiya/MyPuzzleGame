@@ -208,7 +208,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &84260384
 RectTransform:
   m_ObjectHideFlags: 0
@@ -420,7 +420,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &360064316
 RectTransform:
   m_ObjectHideFlags: 0
@@ -693,7 +693,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &717316215
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1474,7 +1474,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &997888422
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1607,7 +1607,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &999237244
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1740,7 +1740,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1173787272
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2087,7 +2087,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1422272145
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2378,7 +2378,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1758021816
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2607,7 +2607,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -2.3014526, y: -6.999756}
-  m_SizeDelta: {x: 1080, y: 1920}
+  m_SizeDelta: {x: 1090, y: 1930}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1923453432
 MonoBehaviour:
@@ -2782,9 +2782,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.08636901
+    y: 0
     width: 1
-    height: 0.827262
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -3065,6 +3065,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f322637b04234a46bec52328a994c28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StageList:
+  - {fileID: 999237243}
+  - {fileID: 1422272144}
+  - {fileID: 84260383}
+  - {fileID: 2096147826}
+  - {fileID: 1173787271}
+  - {fileID: 1758021815}
+  - {fileID: 360064315}
+  - {fileID: 717316214}
+  - {fileID: 997888421}
 --- !u!4 &2090126283
 Transform:
   m_ObjectHideFlags: 0
@@ -3098,7 +3108,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2096147827
 RectTransform:
   m_ObjectHideFlags: 0

@@ -8,12 +8,18 @@ using UnityEngine.Networking;
 
 public class NetworkManager : MonoBehaviour
 {
-    const string API_BASE_URL = "http://localhost:8000/api/";
+    const string API_BASE_URL = "https://api-cube-puzzle.japaneast.cloudapp.azure.com/api/";
     private int userID = 0;//自分のユーザーID
     private string userName = "";//自分のユーザー名
 
+    private int stageClearNum = 0;
 
     private static NetworkManager intstance;
+
+    public int StageClearNum
+    {
+        get { return stageClearNum; }
+    }
 
     public static NetworkManager Instance
     {
@@ -67,6 +73,7 @@ public class NetworkManager : MonoBehaviour
         SaveData saveData = new SaveData();
         saveData.Name = this.userName;
         saveData.UserID = this.userID;
+        saveData.StageClearNum = this.StageClearNum;
         string json = JsonConvert.SerializeObject(saveData);
         var writer = new StreamWriter(Application.persistentDataPath + "/saveData.json");
         writer.Write(json);
@@ -89,7 +96,19 @@ public class NetworkManager : MonoBehaviour
         SaveData saveData = JsonConvert.DeserializeObject<SaveData>(json);
         this.userID = saveData.UserID;
         this.userName = saveData.Name;
+        this.stageClearNum = saveData.StageClearNum;
         return true;
+    }
+
+    //
+    public void StageClear(int StageNum)
+    {
+        if (StageNum > stageClearNum)
+        {
+            stageClearNum++;
+            SaveUserData();
+        }
+        
     }
 
     /*public IEnumerator Getstage(Action<StageResponse[]> result)

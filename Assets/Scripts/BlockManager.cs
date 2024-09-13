@@ -198,6 +198,7 @@ public class BlockManager : MonoBehaviour
         //ƒQ[ƒ€ƒNƒŠƒAˆ—
         if (CurrentNum == TotalNum)
         {
+            NetworkManager.Instance.StageClear(CurrentStageNum);
             isCompleteClear = true;
             GameClear.SetActive(true);
             BackTitleButton.SetActive(true);

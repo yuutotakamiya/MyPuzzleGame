@@ -9,11 +9,11 @@ public class OptionManager : MonoBehaviour
     [SerializeField] GameObject BGMSetting;
     bool isTouch = false;
 
-    [SerializeField] Button button;
+    //[SerializeField] Button button;
     // Start is called before the first frame update
     void Start()
     {
-        button.onClick.AddListener(OnButton);
+        //OnButton();
     }
 
 

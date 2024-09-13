@@ -47,12 +47,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7a3286b52aa86c64ba4c4b55f69722f3
-    m_Address: Stage6
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a94f8b604f1422043863e51b81a9aed2
     m_Address: Stage7
     m_ReadOnly: 0
@@ -73,6 +67,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 222eceb547a79f64eaa6037c0af4f42d
     m_Address: Stage10
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc2589aedded3794ea4eded2bfc25a37
+    m_Address: Stage6
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
