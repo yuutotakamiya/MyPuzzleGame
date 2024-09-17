@@ -42,8 +42,6 @@ public class BlockManager : MonoBehaviour
     float flickValue_x;
     float flickValue_y;
 
-  
-
     AudioSource audioSource;
 
     void Start()
@@ -56,7 +54,7 @@ public class BlockManager : MonoBehaviour
 
         if (CurrentStageNum == 10)
         {
-            NextStageButton.GetComponent<Button>().interactable = false;
+            NextStageButton.SetActive(false);
         }
 
         audioSource = GetComponent<AudioSource>();
