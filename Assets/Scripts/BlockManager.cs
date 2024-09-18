@@ -31,7 +31,6 @@ public class BlockManager : MonoBehaviour
     [SerializeField] AudioClip StageNextSE;//次のステージに行くボタンを押した時のSE
     [SerializeField] AudioClip backStageSelectSE;//ステージ選択画面に行くときのSE
     
-
     bool isMove = false;//移動中かのフラグ
     bool isCompleteClear = false;//クリアしたかどうか
     bool isGameOver = false;//ゲームオーバーしたかのフラグ
@@ -199,13 +198,13 @@ public class BlockManager : MonoBehaviour
         //ゲームクリア処理
         if (CurrentNum == TotalNum)
         {
-            NetworkManager.Instance.StageClear(CurrentStageNum);
             isCompleteClear = true;
             GameClear.SetActive(true);
             BackTitleButton.SetActive(true);
             helpButton.SetActive(false);
             backStageSelectButton.SetActive(true);
             NextStageButton.SetActive(true);
+            NetworkManager.Instance.StageClear(CurrentStageNum);
             return;
         }
     }
