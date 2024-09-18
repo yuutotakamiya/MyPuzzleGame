@@ -5,9 +5,14 @@ using UnityEngine;
 public class StageSelect : MonoBehaviour
 {
     [SerializeField] GameObject[] StageList;
+
+    [SerializeField] AudioClip SE;
+
+    AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         
         for (int i= 0; i < NetworkManager.Instance.StageClearNum; ++i)
         {
@@ -25,6 +30,8 @@ public class StageSelect : MonoBehaviour
     public void FadeStage(int stagenum)
     {
         BlockManager.UpdateStageNum(stagenum);
+
+        audioSource.PlayOneShot(SE);
     }
     
 
