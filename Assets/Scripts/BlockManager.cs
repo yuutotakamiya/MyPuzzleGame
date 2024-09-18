@@ -24,7 +24,7 @@ public class BlockManager : MonoBehaviour
     [SerializeField]int hand;//手数
     [SerializeField]int TotalNum;//フレームのトータル数
     [SerializeField]int CurrentNum;//現在のどのくらい埋めたか保存するための変数
-    static int CurrentStageNum;//現在のステージ番号
+    public static int CurrentStageNum;//現在のステージ番号
 
     //効果音
     [SerializeField] AudioClip TitleSE;//タイトルを押したときのSE
