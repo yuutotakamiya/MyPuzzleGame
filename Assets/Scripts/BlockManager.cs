@@ -19,16 +19,18 @@ public class BlockManager : MonoBehaviour
     [SerializeField] GameObject backStageSelectButton;//ステージ選択画面ボタン
     [SerializeField] GameObject NextStageButton;//次のステージへ
      GameObject helpButton;//ヘルプボタン
+
     //変数宣言
     [SerializeField]int hand;//手数
     [SerializeField]int TotalNum;//フレームのトータル数
     [SerializeField]int CurrentNum;//現在のどのくらい埋めたか保存するための変数
+    static int CurrentStageNum;//現在のステージ番号
 
     //効果音
-    [SerializeField] AudioClip TitleSE;
-    [SerializeField] AudioClip StageNextSE;
-    [SerializeField] AudioClip backStageSelectSE;
-    static int CurrentStageNum;//現在のステージ番号
+    [SerializeField] AudioClip TitleSE;//タイトルを押したときのSE
+    [SerializeField] AudioClip StageNextSE;//次のステージに行くボタンを押した時のSE
+    [SerializeField] AudioClip backStageSelectSE;//ステージ選択画面に行くときのSE
+    
 
     bool isMove = false;//移動中かのフラグ
     bool isCompleteClear = false;//クリアしたかどうか
@@ -54,7 +56,7 @@ public class BlockManager : MonoBehaviour
 
         if (CurrentStageNum == 10)
         {
-            NextStageButton.SetActive(false);
+            NextStageButton.GetComponent<Button>().interactable = false;
         }
 
         audioSource = GetComponent<AudioSource>();
@@ -138,6 +140,7 @@ public class BlockManager : MonoBehaviour
         }
     }
 
+    //ブロックを動かす関数
     private IEnumerator MoveBlock()
     {
         yield return new WaitForSeconds(1.0f);
@@ -174,14 +177,14 @@ public class BlockManager : MonoBehaviour
         }
     }
 
-    //タイトルに戻る
+    //タイトルに戻る関数
     public void FadeBackTitle()
     {
         Initiate.Fade("Title", Color.black, 1.0f);
         audioSource.PlayOneShot(TitleSE);
     }
 
-    //リトライ
+    //リトライする関数
     public void Retry()
     {
         Addressables.LoadScene("Stage"+ CurrentStageNum);

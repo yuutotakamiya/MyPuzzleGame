@@ -795,7 +795,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278190335
-  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4024,8 +4024,8 @@ MonoBehaviour:
   TotalNum: 0
   CurrentNum: 0
   TitleSE: {fileID: 8300000, guid: 55a7dbbe22932764788abdd78a6d278e, type: 3}
-  StageNextSE: {fileID: 8300000, guid: 8f54598e06c1ac44092d13a513d8a560, type: 3}
-  backStageSelectSE: {fileID: 8300000, guid: 8f54598e06c1ac44092d13a513d8a560, type: 3}
+  StageNextSE: {fileID: 8300000, guid: c270da287ec78c04e90c16ed22681a84, type: 3}
+  backStageSelectSE: {fileID: 8300000, guid: 9dcda424aca4a0b42936a142202ae809, type: 3}
 --- !u!4 &1327329961
 Transform:
   m_ObjectHideFlags: 0
@@ -6084,7 +6084,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 669, y: 820}
+  m_AnchoredPosition: {x: 669, y: 826}
   m_SizeDelta: {x: 500, y: 212}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2046029730
