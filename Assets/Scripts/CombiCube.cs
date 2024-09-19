@@ -8,6 +8,10 @@ public class CombiCube : MonoBehaviour
 
     [SerializeField] GameObject effctPrefab;//合体したときのエフェクトのプレハブ
 
+    [SerializeField] AudioClip SE;//ブロックが合体した時のSE; 
+
+    AudioSource audioSource;
+
      GameObject stage;
 
     bool isDestroy = false;
@@ -27,7 +31,7 @@ public class CombiCube : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -42,12 +46,16 @@ public class CombiCube : MonoBehaviour
             // 新しいキューブを生成
             if (other.GetComponent<Block>() == null)
             {
+               
                 return;
             }
+           
             Instantiate(combinedCubePrefab, other.GetComponent<Block>().VTargetPosition,combinedRotation);
-
+             
             //エフェクトを生成
             Instantiate(effctPrefab, transform.position, Quaternion.identity);
+
+            //audioSource.PlayOneShot(SE);
 
             isDestroy = true;
             other.GetComponent<CombiCube>().IsDestroy();
