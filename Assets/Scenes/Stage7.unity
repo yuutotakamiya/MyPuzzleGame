@@ -558,7 +558,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1327329960}
         m_TargetAssemblyTypeName: BlockManager, Assembly-CSharp
-        m_MethodName: FadeStageSelect
+        m_MethodName: FadeNextStage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
