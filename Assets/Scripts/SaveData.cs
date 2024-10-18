@@ -10,5 +10,7 @@ public class SaveData
 
     public int StageClearNum { get; set; }
 
+    public string AuthToken {  get; set; }
+
 
 }

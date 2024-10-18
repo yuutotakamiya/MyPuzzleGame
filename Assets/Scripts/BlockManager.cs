@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.AddressableAssets;
+using Unity.VisualScripting;
 
 public class BlockManager : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class BlockManager : MonoBehaviour
     [SerializeField] GameObject CubeList;//ブロックの進化リスト
     [SerializeField] GameObject backStageSelectButton;//ステージ選択画面ボタン
     [SerializeField] GameObject NextStageButton;//次のステージへ
+    [SerializeField] Text MinHand;//最短手数
+    [SerializeField] Text Myhandnum;//自分自身の最短手数
      GameObject helpButton;//ヘルプボタン
 
     //変数宣言
@@ -26,11 +29,13 @@ public class BlockManager : MonoBehaviour
     [SerializeField]int CurrentNum;//現在のどのくらい埋めたか保存するための変数
     public static int CurrentStageNum;//現在のステージ番号
 
+
     //効果音
     [SerializeField] AudioClip TitleSE;//タイトルを押したときのSE
     [SerializeField] AudioClip StageNextSE;//次のステージに行くボタンを押した時のSE
     [SerializeField] AudioClip backStageSelectSE;//ステージ選択画面に行くときのSE
     
+    //フラグ変数
     bool isMove = false;//移動中かのフラグ
     bool isCompleteClear = false;//クリアしたかどうか
     bool isGameOver = false;//ゲームオーバーしたかのフラグ
@@ -59,6 +64,26 @@ public class BlockManager : MonoBehaviour
         }
 
         audioSource = GetComponent<AudioSource>();
+
+        //ステージの最短手数
+        StartCoroutine(NetworkManager.Instance.GetStageMinHandNum(CurrentStageNum, result =>
+        {
+             MinHand.text =  result.MinHandNum.ToString();
+        }));
+
+
+        //自身の最短手数の呼び出し
+        StartCoroutine(NetworkManager.Instance.GetStageMyHand(CurrentStageNum, result =>
+        {
+            if (result!=null)
+            {
+                Myhandnum.text = result.MinHandNum.ToString();
+            }
+            else
+            {
+                Myhandnum.text = "0";
+            }
+        }));
 
     }
 

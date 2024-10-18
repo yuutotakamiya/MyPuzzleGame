@@ -5,10 +5,6 @@ using UnityEngine;
 
 public class StageRequest : MonoBehaviour
 {
-    /*[JsonProperty("user_id")]
-    [JsonProperty("stage_id")]
-    [JsonProperty("result")]*/
-
 
     public string UserID { get; set; }
 
