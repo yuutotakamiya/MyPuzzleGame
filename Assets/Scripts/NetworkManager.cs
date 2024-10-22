@@ -11,12 +11,11 @@ public class NetworkManager : MonoBehaviour
     const string API_BASE_URL = "http://localhost:8000/api/";
     private  int userID = 0;//自分のユーザーID
     private string userName = "";//自分のユーザー名
+    private int stageClearNum = 0;//ステージクリアした番号
 
-    private int stageClearNum = 0;
+    private int CurrentStageID; //現在のステージIDを保存
 
-    private int CurrentStageID; 
-
-    private string authToken;//トークンを保存するための変数
+    public string authToken;//トークンを保存するための変数
 
     private static NetworkManager intstance;
 
@@ -28,6 +27,7 @@ public class NetworkManager : MonoBehaviour
     {
         get { return CurrentStageID; }
     }
+    
 
     public static NetworkManager Instance
     {
@@ -105,7 +105,7 @@ public class NetworkManager : MonoBehaviour
     }
 
     //自身の最短手数
-    public IEnumerator GetStageMyHand(int CurrentStageID, Action<MyHandNum> result)
+    public IEnumerator GetStageMyHand(int CurrentStageID, Action<MinHandNumResponse> result)
     {
         //最短手数のAPIを実行
         UnityWebRequest request = UnityWebRequest.Get(API_BASE_URL + "min_hand_stage/" + CurrentStageID + "/"+ userID);
@@ -120,7 +120,7 @@ public class NetworkManager : MonoBehaviour
             string resultjson = request.downloadHandler.text;
 
             //jsonをStageResponseクラスの配列にデシリアライズ
-            MyHandNum response = JsonConvert.DeserializeObject<MyHandNum>(resultjson);
+            MinHandNumResponse response = JsonConvert.DeserializeObject<MinHandNumResponse>(resultjson);
 
             //結果を通知
             result?.Invoke(response);
@@ -131,6 +131,34 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    //ステージクリアの登録
+    public IEnumerator RegistStage(int result,int handnum,int stageid, Action<bool> request)
+    {
+        //サーバーに送信するオブジェクトを作成
+        RegistStageRequest requestData = new RegistStageRequest();
+        requestData.Result = result;
+        requestData.StageID = stageid;
+        requestData.HandNum = handnum;
+        requestData.UserID = userID;
+
+        //サーバーに送信するオブジェクトををJSONに変換
+        string json = JsonConvert.SerializeObject(requestData);
+
+        //送信
+        UnityWebRequest webrequest = UnityWebRequest.Post(API_BASE_URL + "stage/store", json, "application/json");
+
+        webrequest.SetRequestHeader("Authorization", "Bearer " + authToken);
+
+        yield return webrequest.SendWebRequest();
+
+        bool isSuccess = false;
+
+        if (webrequest.result == UnityWebRequest.Result.Success && webrequest.responseCode == 200)
+        {
+            isSuccess = true;
+        }
+        request?.Invoke(isSuccess);//ここで呼び出し元の処理を呼び出す
+    }
 
 
     //ユーザー情報を保存する
@@ -175,5 +203,42 @@ public class NetworkManager : MonoBehaviour
             stageClearNum++;
             SaveUserData();
         }
+    }
+
+    //トークン生成処理
+    public IEnumerator CreateToken(Action<bool> result)
+    {
+        var requestData = new
+        {
+            user_id = this.userID,
+        };
+
+        //サーバーに送信するオブジェクトををJSONに変換
+        string json = JsonConvert.SerializeObject(requestData);
+
+        //送信
+        UnityWebRequest request = UnityWebRequest.Post(API_BASE_URL + "users/Token", json, "application/json");
+
+        yield return request.SendWebRequest();
+
+        bool isSuccess = false;
+
+        if (request.result == UnityWebRequest.Result.Success && request.responseCode == 200)
+        {
+            //通信が成功した場合、返ってきたJSONをオブジェクトに変換
+            string resultjson = request.downloadHandler.text;
+
+            //jsonをStageResponseクラスの配列にデシリアライズ
+            RegistUserResponse response = JsonConvert.DeserializeObject<RegistUserResponse>(resultjson);
+
+            this.userID = response.UserID;
+            this.authToken = response.AuthToken;
+            SaveUserData();
+
+            isSuccess = true;
+        }
+
+        result?.Invoke(request.result == UnityWebRequest.Result.Success);//ここで呼び出し元の処理を呼び出す
+
     }
 }

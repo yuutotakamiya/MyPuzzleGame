@@ -12,7 +12,7 @@ using Unity.VisualScripting;
 public class BlockManager : MonoBehaviour
 {
     //UI
-    [SerializeField] Text handnumText;//残り手数
+    [SerializeField] Text handnumText;//残り手数を表示
     [SerializeField] GameObject GameOverText;//ゲームオーバーテキスト
     [SerializeField] GameObject GameClear;//ゲームクリアテキスト
     [SerializeField] GameObject BackTitleButton;//タイトルに戻るボタン
@@ -24,9 +24,11 @@ public class BlockManager : MonoBehaviour
      GameObject helpButton;//ヘルプボタン
 
     //変数宣言
-    [SerializeField]int hand;//手数
+    [SerializeField]int hand;//現在の残り手数
     [SerializeField]int TotalNum;//フレームのトータル数
     [SerializeField]int CurrentNum;//現在のどのくらい埋めたか保存するための変数
+    int useHandNum;
+    int startHand;//最大手数
     public static int CurrentStageNum;//現在のステージ番号
 
 
@@ -52,12 +54,16 @@ public class BlockManager : MonoBehaviour
 
     void Start()
     {
+
+        startHand = hand;
+
         UpdateHandText();
 
         TotalNum = GameObject.FindGameObjectsWithTag("ClearCube").Length;
 
         helpButton = GameObject.Find("helpButton");
 
+        //ステージ10になったら次のステージボタンをfalseにする
         if (CurrentStageNum == 10)
         {
             NextStageButton.GetComponent<Button>().interactable = false;
@@ -68,14 +74,22 @@ public class BlockManager : MonoBehaviour
         //ステージの最短手数
         StartCoroutine(NetworkManager.Instance.GetStageMinHandNum(CurrentStageNum, result =>
         {
-             MinHand.text =  result.MinHandNum.ToString();
+            if (result != null)
+            {
+                MinHand.text = result.MinHandNum.ToString();
+            }
+            else
+            {
+                MinHand.text = "0";
+            }
+
         }));
 
 
         //自身の最短手数の呼び出し
         StartCoroutine(NetworkManager.Instance.GetStageMyHand(CurrentStageNum, result =>
         {
-            if (result!=null)
+            if (result != null)
             {
                 Myhandnum.text = result.MinHandNum.ToString();
             }
@@ -84,6 +98,8 @@ public class BlockManager : MonoBehaviour
                 Myhandnum.text = "0";
             }
         }));
+
+        
 
     }
 
@@ -137,7 +153,6 @@ public class BlockManager : MonoBehaviour
                 GameObject[] combicube = GameObject.FindGameObjectsWithTag("combicube");
                 GameObject[] waterCube = GameObject.FindGameObjectsWithTag("waterCube");
                 GameObject[] rockCube = GameObject.FindGameObjectsWithTag("RockCube");
-                //GameObject[] Bronze = GameObject.FindGameObjectsWithTag("BronzeCube");
 
                 GameObject[] List = new GameObject[fireCube.Length + combicube.Length + waterCube.Length + rockCube.Length];
 
@@ -197,7 +212,7 @@ public class BlockManager : MonoBehaviour
     {
         if (handnumText != null)
         {
-            handnumText.text = hand.ToString();
+            handnumText.text = (startHand - hand).ToString() + " (MAX:"+startHand + ")";
         }
     }
 
@@ -223,14 +238,25 @@ public class BlockManager : MonoBehaviour
         //ゲームクリア処理
         if (CurrentNum == TotalNum)
         {
-            isCompleteClear = true;
-            GameClear.SetActive(true);
-            BackTitleButton.SetActive(true);
-            helpButton.SetActive(false);
-            backStageSelectButton.SetActive(true);
-            NextStageButton.SetActive(true);
-            NetworkManager.Instance.StageClear(CurrentStageNum);
-            return;
+            useHandNum = (startHand - hand);
+            //ステージクリアの登録
+            StartCoroutine(NetworkManager.Instance.RegistStage(1, useHandNum, CurrentStageNum, request =>
+            {
+                if (request ==　true)
+                {
+                   
+                    isCompleteClear = true;
+                    GameClear.SetActive(true);
+                    BackTitleButton.SetActive(true);
+                    helpButton.SetActive(false);
+                    backStageSelectButton.SetActive(true);
+                    NextStageButton.SetActive(true);
+                    NetworkManager.Instance.StageClear(CurrentStageNum);
+                    return;
+                }
+               
+
+            }));
         }
     }
 

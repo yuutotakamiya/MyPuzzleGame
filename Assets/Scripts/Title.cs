@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
+using Unity.VisualScripting.Antlr3.Runtime;
 
 public class Title : MonoBehaviour
 {
@@ -47,6 +48,13 @@ public class Title : MonoBehaviour
     {
         audioSource.PlayOneShot(audioClip);
         bool isSuccess = NetworkManager.Instance.LoadUserData();
+        if(NetworkManager.Instance.authToken == null)
+        {
+            StartCoroutine(NetworkManager.Instance.CreateToken(result =>
+            {
+                bool isSuccess = NetworkManager.Instance.LoadUserData();
+            }));
+        }
         if (!isSuccess)
         {
 

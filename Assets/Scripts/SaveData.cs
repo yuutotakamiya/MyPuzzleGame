@@ -12,5 +12,11 @@ public class SaveData
 
     public string AuthToken {  get; set; }
 
+    public@int StageID {  get; set; }
+
+    public int Result {  get; set; }
+
+    public int MinHandNum {  get; set; } 
+
 
 }
