@@ -27,8 +27,7 @@ public class NetworkManager : MonoBehaviour
     {
         get { return CurrentStageID; }
     }
-    
-
+   
     public static NetworkManager Instance
     {
         get{
@@ -159,6 +158,89 @@ public class NetworkManager : MonoBehaviour
         }
         request?.Invoke(isSuccess);//ここで呼び出し元の処理を呼び出す
     }
+
+    //島の一覧取得
+    public IEnumerator Getland(Action<RegistLandResponse> result)
+    {
+        //最短手数のAPIを実行
+        UnityWebRequest request = UnityWebRequest.Get(API_BASE_URL + "land/index");
+
+        request.SetRequestHeader("Authorization", "Bearer " + authToken);
+
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success && request.responseCode == 200)
+        {
+            //通信が成功した場合、返ってきたJSONをオブジェクトに変換
+            string resultjson = request.downloadHandler.text;
+
+            //jsonをStageResponseクラスの配列にデシリアライズ
+            RegistLandResponse response = JsonConvert.DeserializeObject<RegistLandResponse>(resultjson);
+
+            //結果を通知
+            result?.Invoke(response);
+        }
+        else
+        {
+            result?.Invoke(null);
+        }
+    }
+
+    //島の詳細情報取得
+    public IEnumerator GetDetailsland(int landid, Action<RegistLandDetailsResponse> result)
+    {
+        //最短手数のAPIを実行
+        UnityWebRequest request = UnityWebRequest.Get(API_BASE_URL + "land/show"+ landid);
+
+        request.SetRequestHeader("Authorization", "Bearer " + authToken);
+
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success && request.responseCode == 200)
+        {
+            //通信が成功した場合、返ってきたJSONをオブジェクトに変換
+            string resultjson = request.downloadHandler.text;
+
+            //jsonをStageResponseクラスの配列にデシリアライズ
+            RegistLandDetailsResponse response = JsonConvert.DeserializeObject<RegistLandDetailsResponse>(resultjson);
+
+            //結果を通知
+            result?.Invoke(response);
+        }
+        else
+        {
+            result?.Invoke(null);
+        }
+    }
+
+    //島の状況登録API
+    public IEnumerator Registland(int landid,int landblocknum, Action<bool> request)
+    {
+        //サーバーに送信するオブジェクトを作成
+        RegistlandRequest requestData = new RegistlandRequest();
+        requestData.LandID = landid;
+        requestData.LandBlockNum = landblocknum;
+        requestData.UserID = userID;
+
+        //サーバーに送信するオブジェクトををJSONに変換
+        string json = JsonConvert.SerializeObject(requestData);
+
+        //送信
+        UnityWebRequest webrequest = UnityWebRequest.Post(API_BASE_URL + "land_block/store", json, "application/json");
+
+        webrequest.SetRequestHeader("Authorization", "Bearer " + authToken);
+
+        yield return webrequest.SendWebRequest();
+
+        bool isSuccess = false;
+
+        if (webrequest.result == UnityWebRequest.Result.Success && webrequest.responseCode == 200)
+        {
+            isSuccess = true;
+        }
+        request?.Invoke(isSuccess);//ここで呼び出し元の処理を呼び出す
+    }
+
 
 
     //ユーザー情報を保存する

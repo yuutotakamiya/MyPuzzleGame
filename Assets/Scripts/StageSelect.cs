@@ -22,9 +22,6 @@ public class StageSelect : MonoBehaviour
             StageList[i].SetActive(true);
         }
 
-
-       
-        
     }
 
     // Update is called once per frame
@@ -38,6 +35,11 @@ public class StageSelect : MonoBehaviour
         BlockManager.UpdateStageNum(stagenum);
 
         audioSource.PlayOneShot(SE);
+    }
+
+    public void RaidStage()
+    {
+        Initiate.Fade("land1", Color.black, 1.0f, true);
     }
     
 

@@ -77,6 +77,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 51e46b7234cffeb46a3090a5d60acf23
+    m_Address: land1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e532bd98bd8c8b543ae419ef094b5c05, type: 2}
   m_SchemaSet:
