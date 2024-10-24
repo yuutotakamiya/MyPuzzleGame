@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StageSelect : MonoBehaviour
 {
@@ -21,7 +22,6 @@ public class StageSelect : MonoBehaviour
         {
             StageList[i].SetActive(true);
         }
-
     }
 
     // Update is called once per frame
@@ -41,6 +41,5 @@ public class StageSelect : MonoBehaviour
     {
         Initiate.Fade("land1", Color.black, 1.0f, true);
     }
-    
-
+       
 }

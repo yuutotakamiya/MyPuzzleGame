@@ -21,12 +21,12 @@ public class BlockManager : MonoBehaviour
     [SerializeField] GameObject NextStageButton;//次のステージへ
     [SerializeField] Text MinHand;//最短手数
     [SerializeField] Text Myhandnum;//自分自身の最短手数
-     GameObject helpButton;//ヘルプボタン
+    GameObject helpButton;//ヘルプボタン
 
     //変数宣言
-    [SerializeField]int hand;//現在の残り手数
-    [SerializeField]int TotalNum;//フレームのトータル数
-    [SerializeField]int CurrentNum;//現在のどのくらい埋めたか保存するための変数
+    [SerializeField] int hand;//現在の残り手数
+    [SerializeField] int TotalNum;//フレームのトータル数
+    [SerializeField] int CurrentNum;//現在のどのくらい埋めたか保存するための変数
     int useHandNum;
     int startHand;//最大手数
     public static int CurrentStageNum;//現在のステージ番号
@@ -36,11 +36,12 @@ public class BlockManager : MonoBehaviour
     [SerializeField] AudioClip TitleSE;//タイトルを押したときのSE
     [SerializeField] AudioClip StageNextSE;//次のステージに行くボタンを押した時のSE
     [SerializeField] AudioClip backStageSelectSE;//ステージ選択画面に行くときのSE
-    
+
     //フラグ変数
     bool isMove = false;//移動中かのフラグ
     bool isCompleteClear = false;//クリアしたかどうか
     bool isGameOver = false;//ゲームオーバーしたかのフラグ
+    bool isMenu = false;//メニューを開いてかどうか
 
     Vector3 TargetPosition;
 
@@ -82,7 +83,6 @@ public class BlockManager : MonoBehaviour
             {
                 MinHand.text = "0";
             }
-
         }));
 
 
@@ -99,13 +99,11 @@ public class BlockManager : MonoBehaviour
             }
         }));
 
-        
-
     }
 
     void Update()
     {
-        if (isMove || isCompleteClear || isGameOver ) return;//移動中またはクリアした場合は入力を無視する
+        if (isMove || isCompleteClear || isGameOver || isMenu) return;//移動中またはクリアした場合は入力を無視する
 
         if (Input.GetMouseButtonDown(0) == true)
         {
@@ -171,7 +169,7 @@ public class BlockManager : MonoBehaviour
                     {
                         block.Move(direction, () =>
                         {
-                           
+
                         });
                     }
                 }
@@ -212,7 +210,7 @@ public class BlockManager : MonoBehaviour
     {
         if (handnumText != null)
         {
-            handnumText.text = (startHand - hand).ToString() + " (MAX:"+startHand + ")";
+            handnumText.text = (startHand - hand).ToString() + " (MAX:" + startHand + ")";
         }
     }
 
@@ -226,7 +224,7 @@ public class BlockManager : MonoBehaviour
     //リトライする関数
     public void Retry()
     {
-        Addressables.LoadScene("Stage"+ CurrentStageNum);
+        Addressables.LoadScene("Stage" + CurrentStageNum);
     }
 
     //現在のフレームの数がトータルのフレームの数が同じになったら
@@ -242,9 +240,9 @@ public class BlockManager : MonoBehaviour
             //ステージクリアの登録
             StartCoroutine(NetworkManager.Instance.RegistStage(1, useHandNum, CurrentStageNum, request =>
             {
-                if (request ==　true)
+                if (request == true)
                 {
-                   
+
                     isCompleteClear = true;
                     GameClear.SetActive(true);
                     BackTitleButton.SetActive(true);
@@ -254,7 +252,7 @@ public class BlockManager : MonoBehaviour
                     NetworkManager.Instance.StageClear(CurrentStageNum);
                     return;
                 }
-               
+
 
             }));
         }
@@ -271,7 +269,7 @@ public class BlockManager : MonoBehaviour
     public void FadeNextStage()
     {
         CurrentStageNum += 1;
-        Initiate.Fade("Stage"+ CurrentStageNum, Color.black, 1.0f,true);
+        Initiate.Fade("Stage" + CurrentStageNum, Color.black, 1.0f, true);
         audioSource.PlayOneShot(StageNextSE);
     }
 
@@ -279,6 +277,24 @@ public class BlockManager : MonoBehaviour
     static public void UpdateStageNum(int currentstagenum)
     {
         CurrentStageNum = currentstagenum;
-        Initiate.Fade("Stage"+ CurrentStageNum, Color.black, 1.0f,true);
+        Initiate.Fade("Stage" + CurrentStageNum, Color.black, 1.0f, true);
     }
+    
+
+    public void MenuButton()
+    {
+        if (!isMenu)
+        {
+            backStageSelectButton.SetActive(true);
+            BackTitleButton.SetActive(true);
+        }
+        else
+        {
+            backStageSelectButton.SetActive(false);
+            BackTitleButton.SetActive(false);
+        }
+
+        isMenu = !isMenu;
+    }
+
 }
