@@ -1,41 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LandListManager : MonoBehaviour
 {
-    [SerializeField] Text CurrentNumText;//現在ブロックが埋まっている数
+    [SerializeField] GameObject raidObj;
 
-    [SerializeField] Text TotalBlockNumText;//ブロック埋める合計数
-
+    [SerializeField] Transform Content;
     // Start is called before the first frame update
     void Start()
-    {
+    { 
         StartCoroutine(NetworkManager.Instance.Getland(result =>
         {
-
-            if (result != null)
+            for (int i = 0; i < result.Length; i++)
             {
-                CurrentNumText.text = result[0].LandBlockNum.ToString();
-                TotalBlockNumText.text = result[0].BlockMissionSum.ToString();
-            }
-            else
-            {
-                CurrentNumText.text = "0";
-                TotalBlockNumText.text = "0";
-            }
+               GameObject raid =  Instantiate(raidObj ,transform.position, Quaternion.identity,Content);
 
+                raid.transform.Find("TotalBlockNumText").GetComponent<Text>().text = result[i].BlockMissionSum.ToString();
+                raid.transform.Find("CurrentBlockNumText").GetComponent<Text>().text = result[i].LandBlockNum.ToString();
+            }
         }));
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
 
     public void RaidButton()
     {

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,7 +38,6 @@ public class StageSelect : MonoBehaviour
 
     public void RaidStage()
     {
-        Initiate.Fade("LandList", Color.black, 1.0f, true);
-    }
-       
+        Initiate.Fade("LandList", Color.black, 1.0f,false);
+    } 
 }

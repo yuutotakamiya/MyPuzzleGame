@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 
 public class NetworkManager : MonoBehaviour
 {
-    const string API_BASE_URL = "http://localhost:8000/api/";
+    const string API_BASE_URL = "https://api-cube-puzzle.japaneast.cloudapp.azure.com/api/";
     private  int userID = 0;//自分のユーザーID
     private string userName = "";//自分のユーザー名
     private int stageClearNum = 0;//ステージクリアした番号
