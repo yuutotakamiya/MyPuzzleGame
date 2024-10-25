@@ -39,7 +39,7 @@ public class StageSelect : MonoBehaviour
 
     public void RaidStage()
     {
-        Initiate.Fade("land1", Color.black, 1.0f, true);
+        Initiate.Fade("LandList", Color.black, 1.0f, true);
     }
        
 }

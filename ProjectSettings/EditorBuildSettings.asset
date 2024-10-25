@@ -14,6 +14,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/StageSelectScene.unity
     guid: 3a0668121d59614429c16ef68d0e8eab
+  - enabled: 1
+    path: Assets/Scenes/LandList.unity
+    guid: 71caca0ee4227734f946853ba06f15db
+  - enabled: 1
+    path: Assets/Scenes/land1.unity
+    guid: 51e46b7234cffeb46a3090a5d60acf23
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 88b4d7f29cd60b84886a3745d889307c,
       type: 2}

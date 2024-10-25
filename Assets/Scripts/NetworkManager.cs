@@ -160,7 +160,7 @@ public class NetworkManager : MonoBehaviour
     }
 
     //島の一覧取得
-    public IEnumerator Getland(Action<RegistLandResponse> result)
+    public IEnumerator Getland(Action<RegistLandResponse[]> result)
     {
         //最短手数のAPIを実行
         UnityWebRequest request = UnityWebRequest.Get(API_BASE_URL + "land/index");
@@ -175,7 +175,7 @@ public class NetworkManager : MonoBehaviour
             string resultjson = request.downloadHandler.text;
 
             //jsonをStageResponseクラスの配列にデシリアライズ
-            RegistLandResponse response = JsonConvert.DeserializeObject<RegistLandResponse>(resultjson);
+            RegistLandResponse[] response = JsonConvert.DeserializeObject<RegistLandResponse[]>(resultjson);
 
             //結果を通知
             result?.Invoke(response);
@@ -213,7 +213,7 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    //島の状況登録API
+    //島の状況登録
     public IEnumerator Registland(int landid,int landblocknum, Action<bool> request)
     {
         //サーバーに送信するオブジェクトを作成
@@ -243,7 +243,7 @@ public class NetworkManager : MonoBehaviour
 
 
 
-    //ユーザー情報を保存する
+    //ユーザー情報とステージクリア番号を保存する
     private void SaveUserData()
     {
         SaveData saveData = new SaveData();
@@ -258,7 +258,7 @@ public class NetworkManager : MonoBehaviour
         writer.Close();
     }
 
-    //ユーザー情報を読み込む
+    //ユーザー情報とステージクリア番号を読み込む
     public bool LoadUserData()
     {
         if (!File.Exists(Application.persistentDataPath + "/saveData.json"))

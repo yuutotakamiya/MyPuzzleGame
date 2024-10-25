@@ -30,6 +30,8 @@ public class BlockManager : MonoBehaviour
     int useHandNum;
     int startHand;//最大手数
     public static int CurrentStageNum;//現在のステージ番号
+    public static int landid;
+    public static int landblocknum;
 
 
     //効果音
@@ -187,11 +189,14 @@ public class BlockManager : MonoBehaviour
         //手数が0になったらゲームオーバー
         if (hand <= 0 && !isCompleteClear)
         {
-            isGameOver = true;
-            GameOverText.SetActive(true);
-            BackTitleButton.SetActive(true);
-            helpButton.SetActive(false);
-            backStageSelectButton.SetActive(true);
+            StartCoroutine(NetworkManager.Instance.Registland(landid, TotalNum, result =>
+            {
+                isGameOver = true;
+                GameOverText.SetActive(true);
+                BackTitleButton.SetActive(true);
+                helpButton.SetActive(false);
+                backStageSelectButton.SetActive(true);
+            }));
         }
     }
 
@@ -242,7 +247,6 @@ public class BlockManager : MonoBehaviour
             {
                 if (request == true)
                 {
-
                     isCompleteClear = true;
                     GameClear.SetActive(true);
                     BackTitleButton.SetActive(true);
@@ -252,8 +256,6 @@ public class BlockManager : MonoBehaviour
                     NetworkManager.Instance.StageClear(CurrentStageNum);
                     return;
                 }
-
-
             }));
         }
     }
@@ -280,7 +282,7 @@ public class BlockManager : MonoBehaviour
         Initiate.Fade("Stage" + CurrentStageNum, Color.black, 1.0f, true);
     }
     
-
+    //  メニューボタンを押したときの処理
     public void MenuButton()
     {
         if (!isMenu)
