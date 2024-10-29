@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class RegistLandResponse
 {
+    [JsonProperty("id")]
+    public int LandID { get; set; }
     [JsonProperty("stage_id")]
     public int StageID { get; set; }
     [JsonProperty("block_mission_sum")]

@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 
 public class NetworkManager : MonoBehaviour
 {
-    const string API_BASE_URL = "https://api-cube-puzzle.japaneast.cloudapp.azure.com/api/";
+    const string API_BASE_URL = "http://localhost:8000/api/";
     private  int userID = 0;//自分のユーザーID
     private string userName = "";//自分のユーザー名
     private int stageClearNum = 0;//ステージクリアした番号
@@ -17,12 +17,16 @@ public class NetworkManager : MonoBehaviour
 
     public string authToken;//トークンを保存するための変数
 
+    public int LandID;//島のIDを保存
+
     private static NetworkManager intstance;
 
+    //ステージのクリア番号のプロパティ
     public int StageClearNum
     {
         get { return stageClearNum; }
     }
+    //現在のステージ番号のプロパティ
     public int CurrentStageId
     {
         get { return CurrentStageID; }
@@ -243,7 +247,7 @@ public class NetworkManager : MonoBehaviour
 
 
 
-    //ユーザー情報とステージクリア番号を保存する
+    //ユーザー情報とステージクリア番号と島のIDを保存する
     private void SaveUserData()
     {
         SaveData saveData = new SaveData();
@@ -251,6 +255,7 @@ public class NetworkManager : MonoBehaviour
         saveData.UserID = this.userID;
         saveData.AuthToken = this.authToken;
         saveData.StageClearNum = this.StageClearNum;
+        saveData.LandID = this.LandID;
         string json = JsonConvert.SerializeObject(saveData);
         var writer = new StreamWriter(Application.persistentDataPath + "/saveData.json");
         writer.Write(json);
@@ -274,6 +279,7 @@ public class NetworkManager : MonoBehaviour
         this.userName = saveData.Name;
         this.authToken = saveData.AuthToken;
         this.stageClearNum = saveData.StageClearNum;
+        this.LandID = saveData.LandID;
         return true;
     }
 

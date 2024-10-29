@@ -9,6 +9,11 @@ using TMPro;
 using UnityEngine.AddressableAssets;
 using Unity.VisualScripting;
 
+public static class LandStageID
+{
+    public const int landStageID = 11;
+}
+
 public class BlockManager : MonoBehaviour
 {
     //UI
@@ -21,6 +26,8 @@ public class BlockManager : MonoBehaviour
     [SerializeField] GameObject NextStageButton;//次のステージへ
     [SerializeField] Text MinHand;//最短手数
     [SerializeField] Text Myhandnum;//自分自身の最短手数
+    [SerializeField] GameObject EndText;//終了テキスト
+    [SerializeField] GameObject RetryBuuton;
     GameObject helpButton;//ヘルプボタン
 
     //変数宣言
@@ -30,9 +37,7 @@ public class BlockManager : MonoBehaviour
     int useHandNum;
     int startHand;//最大手数
     public static int CurrentStageNum;//現在のステージ番号
-    public static int landid;
-    public static int landblocknum;
-
+    public static int landid;//島のIDを保存する変数
 
     //効果音
     [SerializeField] AudioClip TitleSE;//タイトルを押したときのSE
@@ -43,7 +48,7 @@ public class BlockManager : MonoBehaviour
     bool isMove = false;//移動中かのフラグ
     bool isCompleteClear = false;//クリアしたかどうか
     bool isGameOver = false;//ゲームオーバーしたかのフラグ
-    bool isMenu = false;//メニューを開いてかどうか
+    bool isMenu = false;//メニューを開いてるかどうか
 
     Vector3 TargetPosition;
 
@@ -189,13 +194,58 @@ public class BlockManager : MonoBehaviour
         //手数が0になったらゲームオーバー
         if (hand <= 0 && !isCompleteClear)
         {
-            StartCoroutine(NetworkManager.Instance.Registland(landid, TotalNum, result =>
+            isGameOver = true;
+
+            //GameOverTextがnullじゃなかったら
+            if (GameOverText != null)
             {
-                isGameOver = true;
                 GameOverText.SetActive(true);
+            }
+            //BackTitleButtonがnullじゃなかったら
+            else if (BackTitleButton != null)
+            {
                 BackTitleButton.SetActive(true);
+            }
+            //helpButtonがnullじゃなかったら
+            else if (helpButton != null)
+            {
                 helpButton.SetActive(false);
+            }
+            //backStageSelectButtonがnullじゃなかったら
+            else if (backStageSelectButton != null)
+            {
                 backStageSelectButton.SetActive(true);
+            }
+
+        }
+        if (CurrentStageNum >= LandStageID.landStageID && hand <= 0 && !isCompleteClear)
+        {
+            //島の状況登録APIの呼び出し
+            StartCoroutine(NetworkManager.Instance.Registland(landid, CurrentNum, result =>
+            {
+
+                isGameOver = true;
+                //EndTextがnullじゃなかったら
+                if (EndText != null)
+                {
+                    EndText.SetActive(true);
+                }
+                //backStageSelectButtonがnullじゃなかったら
+                else if (backStageSelectButton != null)
+                {
+                    backStageSelectButton.SetActive(true);
+                }
+                //BackTitleButtonがnullじゃなかったら
+                else if (BackTitleButton != null)
+                {
+                    BackTitleButton.SetActive(true);
+                }
+                //GameOverTextがnullじゃなかったら
+                else if (GameOverText != null)
+                {
+                    GameOverText.SetActive(false);   
+                }
+
             }));
         }
     }
@@ -242,6 +292,7 @@ public class BlockManager : MonoBehaviour
         if (CurrentNum == TotalNum)
         {
             useHandNum = (startHand - hand);
+
             //ステージクリアの登録
             StartCoroutine(NetworkManager.Instance.RegistStage(1, useHandNum, CurrentStageNum, request =>
             {
@@ -257,6 +308,34 @@ public class BlockManager : MonoBehaviour
                     return;
                 }
             }));
+
+            if (CurrentStageNum >= LandStageID.landStageID)
+            { 
+                //島の状況登録
+                StartCoroutine(NetworkManager.Instance.Registland(CurrentStageNum, CurrentNum, result =>
+                {
+
+                    isCompleteClear = true;
+
+                    if (EndText != null)
+                    {
+                        EndText.SetActive(true);
+                    }
+                    else if (backStageSelectButton != null)
+                    {
+                        backStageSelectButton.SetActive(true);
+                    }
+                    else if (BackTitleButton != null)
+                    {
+                        BackTitleButton.SetActive(true);
+                    }
+                    else if (GameOverText != null)
+                    {
+                        GameOverText.SetActive(false);
+                    }
+                    return;
+                }));
+            }
         }
     }
 
@@ -281,22 +360,44 @@ public class BlockManager : MonoBehaviour
         CurrentStageNum = currentstagenum;
         Initiate.Fade("Stage" + CurrentStageNum, Color.black, 1.0f, true);
     }
-    
+
+    //ランドIDを保存するためのメソッド
+    static public void UpdateLandID(int id)
+    {
+        landid = id;
+    }
+
+    //LandIDを取得してくるメソッド
+    static public int GetLandID()
+    {
+        return landid;
+    }
+
     //  メニューボタンを押したときの処理
     public void MenuButton()
     {
-        if (!isMenu)
+        //現在のステージ番号が11以上だったら
+        if (CurrentStageNum >= LandStageID.landStageID)
+        {
+            if (!isMenu)
+            {
+                backStageSelectButton.SetActive(true);
+                BackTitleButton.SetActive(true);
+            }  
+            else
+            {
+                backStageSelectButton.SetActive(false);
+                BackTitleButton.SetActive(false);
+            }
+          
+        }
+        else 
         {
             backStageSelectButton.SetActive(true);
             BackTitleButton.SetActive(true);
-        }
-        else
-        {
-            backStageSelectButton.SetActive(false);
-            BackTitleButton.SetActive(false);
+            RetryBuuton.SetActive(true);
         }
 
         isMenu = !isMenu;
     }
-
 }

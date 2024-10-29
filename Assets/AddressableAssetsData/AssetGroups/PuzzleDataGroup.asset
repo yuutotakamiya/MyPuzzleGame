@@ -78,7 +78,19 @@ MonoBehaviour:
     - default
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 51e46b7234cffeb46a3090a5d60acf23
-    m_Address: land1
+    m_Address: Stage11
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 491a7b7be794bf64b93e3645f258404d
+    m_Address: Stage12
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f07dcc4c61e84b2468e9a20e92d393f2
+    m_Address: Stage13
     m_ReadOnly: 0
     m_SerializedLabels:
     - default

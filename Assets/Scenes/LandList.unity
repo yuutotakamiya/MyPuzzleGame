@@ -741,7 +741,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 178a331bc1167764596f992767a126d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raidObj: {fileID: 5550867597733831870, guid: cd3cc0e19c6f6484cabeb78bfee2cfc6, type: 3}
+  raidObj:
+  - {fileID: 5550867597733831870, guid: cd3cc0e19c6f6484cabeb78bfee2cfc6, type: 3}
+  - {fileID: 5550867597733831870, guid: 65cf03dd2230b394a999ea16ce1e6600, type: 3}
+  - {fileID: 5550867597733831870, guid: 69538872db417bb4889a24e3bc9aca6c, type: 3}
   Content: {fileID: 1120472031}
 --- !u!1 &1063984161
 GameObject:

@@ -46,7 +46,6 @@ public class CombiCube : MonoBehaviour
             // 新しいキューブを生成
             if (other.GetComponent<Block>() == null)
             {
-               
                 return;
             }
            
@@ -55,10 +54,10 @@ public class CombiCube : MonoBehaviour
             //エフェクトを生成
             Instantiate(effctPrefab, transform.position, Quaternion.identity);
 
-            //audioSource.PlayOneShot(SE);
-
             isDestroy = true;
             other.GetComponent<CombiCube>().IsDestroy();
+
+
             // 元のキューブを削除
             Destroy(other.gameObject);
             Destroy(gameObject);

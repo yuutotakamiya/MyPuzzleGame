@@ -18,5 +18,7 @@ public class SaveData
 
     public int MinHandNum {  get; set; } 
 
+    public int LandID {get; set; }
+
 
 }

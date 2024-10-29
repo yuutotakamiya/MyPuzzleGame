@@ -11,6 +11,4 @@ public class RegistlandRequest
     public int UserID { get; set; }
     [JsonProperty("land_block_num")]
     public int LandBlockNum { get; set; }
-
-
 }
