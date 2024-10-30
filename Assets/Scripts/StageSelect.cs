@@ -11,6 +11,8 @@ public class StageSelect : MonoBehaviour
 
     [SerializeField] AudioClip SE;
 
+    [SerializeField] AudioClip RaidSE;
+
     AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
@@ -39,5 +41,6 @@ public class StageSelect : MonoBehaviour
     public void RaidStage()
     {
         Initiate.Fade("LandList", Color.black, 1.0f);
+        audioSource.PlayOneShot(RaidSE);
     } 
 }

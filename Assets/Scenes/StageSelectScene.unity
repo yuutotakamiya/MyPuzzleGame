@@ -3305,6 +3305,7 @@ MonoBehaviour:
   - {fileID: 717316214}
   - {fileID: 997888421}
   SE: {fileID: 8300000, guid: 2f828d0daf65c3f46acc5a17f08b0fbd, type: 3}
+  RaidSE: {fileID: 8300000, guid: 7dd2bb2af9ef6234fb57f7238726b6e5, type: 3}
 --- !u!4 &2090126283
 Transform:
   m_ObjectHideFlags: 0
