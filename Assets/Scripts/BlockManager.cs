@@ -243,7 +243,7 @@ public class BlockManager : MonoBehaviour
                 //GameOverText‚ªnull‚¶‚á‚È‚©‚Á‚½‚ç
                 else if (GameOverText != null)
                 {
-                    GameOverText.SetActive(false);   
+                    GameOverText.SetActive(false);
                 }
 
             }));
@@ -310,7 +310,7 @@ public class BlockManager : MonoBehaviour
             }));
 
             if (CurrentStageNum >= LandStageID.landStageID)
-            { 
+            {
                 //“‡‚Ìó‹µ“o˜^
                 StartCoroutine(NetworkManager.Instance.Registland(CurrentStageNum, CurrentNum, result =>
                 {
@@ -383,16 +383,18 @@ public class BlockManager : MonoBehaviour
             {
                 backStageSelectButton.SetActive(true);
                 BackTitleButton.SetActive(true);
-            }  
+            }
             else
             {
                 backStageSelectButton.SetActive(false);
                 BackTitleButton.SetActive(false);
             }
-          
+
         }
-        else 
+        else if (!isMenu)
         {
+
+            helpButton.SetActive(false);
             backStageSelectButton.SetActive(true);
             BackTitleButton.SetActive(true);
             RetryBuuton.SetActive(true);
