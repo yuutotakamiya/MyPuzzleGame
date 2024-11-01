@@ -28,6 +28,7 @@ public class BlockManager : MonoBehaviour
     [SerializeField] Text Myhandnum;//自分自身の最短手数
     [SerializeField] GameObject EndText;//終了テキスト
     [SerializeField] GameObject RetryBuuton;
+    [SerializeField] GameObject meNuButton;
     GameObject helpButton;//ヘルプボタン
 
     //変数宣言
@@ -62,7 +63,6 @@ public class BlockManager : MonoBehaviour
 
     void Start()
     {
-
         startHand = hand;
 
         UpdateHandText();
@@ -79,7 +79,7 @@ public class BlockManager : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
 
-        //ステージの最短手数
+        //ステージの最短手数の呼び出し
         StartCoroutine(NetworkManager.Instance.GetStageMinHandNum(CurrentStageNum, result =>
         {
             if (result != null)
@@ -195,58 +195,60 @@ public class BlockManager : MonoBehaviour
         if (hand <= 0 && !isCompleteClear)
         {
             isGameOver = true;
-
+           
             //GameOverTextがnullじゃなかったら
             if (GameOverText != null)
             {
                 GameOverText.SetActive(true);
             }
-            //BackTitleButtonがnullじゃなかったら
-            else if (BackTitleButton != null)
+            //backStageSelectButtonがnullじゃなかったら
+            if (backStageSelectButton != null)
             {
+               
+                backStageSelectButton.SetActive(true);
                 BackTitleButton.SetActive(true);
             }
             //helpButtonがnullじゃなかったら
-            else if (helpButton != null)
+            if (helpButton != null)
             {
                 helpButton.SetActive(false);
             }
-            //backStageSelectButtonがnullじゃなかったら
-            else if (backStageSelectButton != null)
+
+            //ステージ番号が11以上かつ手数が0になったら
+            if (CurrentStageNum >= LandStageID.landStageID)
             {
-                backStageSelectButton.SetActive(true);
+                //島の状況登録APIの呼び出し
+                StartCoroutine(NetworkManager.Instance.Registland(landid, CurrentNum, result =>
+                {
+
+                    isCompleteClear = true;
+                    isMenu = false;
+                    //EndTextがnullじゃなかったら
+                    if (EndText != null)
+                    {
+                        EndText.SetActive(true);
+                    }
+                    //backStageSelectButtonがnullじゃなかったら
+                    else if (backStageSelectButton != null)
+                    {
+                        BackTitleButton.SetActive(true);
+                        backStageSelectButton.SetActive(true);
+                    }
+                    //GameOverTextがnullじゃなかったら
+                    else if (GameOverText != null)
+                    {
+                        GameOverText.SetActive(false);
+                    }
+                    else if (meNuButton !=null)
+                    {
+                        meNuButton.SetActive(false);
+                    }
+
+                    return;
+                }));
+
             }
 
-        }
-        if (CurrentStageNum >= LandStageID.landStageID && hand <= 0 && !isCompleteClear)
-        {
-            //島の状況登録APIの呼び出し
-            StartCoroutine(NetworkManager.Instance.Registland(landid, CurrentNum, result =>
-            {
-
-                isGameOver = true;
-                //EndTextがnullじゃなかったら
-                if (EndText != null)
-                {
-                    EndText.SetActive(true);
-                }
-                //backStageSelectButtonがnullじゃなかったら
-                else if (backStageSelectButton != null)
-                {
-                    backStageSelectButton.SetActive(true);
-                }
-                //BackTitleButtonがnullじゃなかったら
-                else if (BackTitleButton != null)
-                {
-                    BackTitleButton.SetActive(true);
-                }
-                //GameOverTextがnullじゃなかったら
-                else if (GameOverText != null)
-                {
-                    GameOverText.SetActive(false);
-                }
-
-            }));
         }
     }
 
@@ -296,17 +298,16 @@ public class BlockManager : MonoBehaviour
             //ステージクリアの登録
             StartCoroutine(NetworkManager.Instance.RegistStage(1, useHandNum, CurrentStageNum, request =>
             {
-                if (request == true)
-                {
-                    isCompleteClear = true;
-                    GameClear.SetActive(true);
-                    BackTitleButton.SetActive(true);
-                    helpButton.SetActive(false);
-                    backStageSelectButton.SetActive(true);
-                    NextStageButton.SetActive(true);
-                    NetworkManager.Instance.StageClear(CurrentStageNum);
-                    return;
-                }
+                isCompleteClear = true;
+                isMenu = false;
+                GameClear.SetActive(true);
+                BackTitleButton.SetActive(true);
+                helpButton.SetActive(false);
+                backStageSelectButton.SetActive(true);
+                NextStageButton.SetActive(true);
+                meNuButton.SetActive(false);
+                NetworkManager.Instance.StageClear(CurrentStageNum);
+                return;
             }));
 
             if (CurrentStageNum >= LandStageID.landStageID)
@@ -316,7 +317,6 @@ public class BlockManager : MonoBehaviour
                 {
 
                     isCompleteClear = true;
-
                     if (EndText != null)
                     {
                         EndText.SetActive(true);
@@ -333,7 +333,12 @@ public class BlockManager : MonoBehaviour
                     {
                         GameOverText.SetActive(false);
                     }
+                    else if (meNuButton != null)
+                    {
+                        meNuButton.SetActive(false);
+                    }
                     return;
+
                 }));
             }
         }
@@ -376,30 +381,22 @@ public class BlockManager : MonoBehaviour
     //  メニューボタンを押したときの処理
     public void MenuButton()
     {
-        //現在のステージ番号が11以上だったら
-        if (CurrentStageNum >= LandStageID.landStageID)
+        if(CurrentStageNum < LandStageID.landStageID)
         {
+           
             if (!isMenu)
             {
+                RetryBuuton.SetActive(true);
                 backStageSelectButton.SetActive(true);
                 BackTitleButton.SetActive(true);
             }
             else
             {
+                RetryBuuton.SetActive(true);
                 backStageSelectButton.SetActive(false);
                 BackTitleButton.SetActive(false);
             }
-
         }
-        else if (!isMenu)
-        {
-
-            helpButton.SetActive(false);
-            backStageSelectButton.SetActive(true);
-            BackTitleButton.SetActive(true);
-            RetryBuuton.SetActive(true);
-        }
-
         isMenu = !isMenu;
     }
 }

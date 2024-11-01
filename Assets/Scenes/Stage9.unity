@@ -9610,7 +9610,8 @@ MonoBehaviour:
   MinHand: {fileID: 975881084}
   Myhandnum: {fileID: 1515570783}
   EndText: {fileID: 0}
-  RetryBuuton: {fileID: 0}
+  RetryBuuton: {fileID: 1516540339}
+  meNuButton: {fileID: 96753308}
   hand: 20
   TotalNum: 0
   CurrentNum: 0

@@ -7544,6 +7544,7 @@ MonoBehaviour:
   Myhandnum: {fileID: 237185888}
   EndText: {fileID: 0}
   RetryBuuton: {fileID: 1516540339}
+  meNuButton: {fileID: 524727471}
   hand: 10
   TotalNum: 0
   CurrentNum: 0

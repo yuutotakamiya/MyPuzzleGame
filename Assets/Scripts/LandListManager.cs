@@ -32,7 +32,7 @@ public class LandListManager : MonoBehaviour
                     raid.transform.Find("FadeLand").GetComponent<FadeLaid>().StageID = result[i].StageID;
 
                     //ブロックを埋める目標数より現在の埋める個数が多かったら
-                    if (result[i].LandBlockNum >= result[i].BlockMissionSum)
+                    if (result[i].Result ==1)
                     {
                         //挑戦ボタンを押せないようにする
                         raid.transform.Find("RaidButton").GetComponent<Button>().interactable = false;
